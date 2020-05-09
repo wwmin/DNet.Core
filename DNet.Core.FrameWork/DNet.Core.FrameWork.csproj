@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DNet.Core.FrameWork.Entity\DNet.Core.FrameWork.Entity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DNet.Core.FrameWork.Entity.Entity.cs</LastGenOutput>
+    </None>
+    <None Update="DNet.Core.FrameWork.IRepository\DNet.Core.FrameWork.IRepository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+    </None>
+    <None Update="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IRepository.tt">
+      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="DNet.Core.FrameWork.Repository\DNet.Core.FrameWork.IRepository.tt">
+      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="DNet.Core.FrameWork.Services\DNet.Core.FrameWork.IRepository.tt">
+      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DNet.Core.FrameWork.IRepository\DNet.Core.FrameWork.IRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DNet.Core.FrameWork.Repository\DNet.Core.FrameWork.IRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="DNet.Core.FrameWork.Services\DNet.Core.FrameWork.IRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
