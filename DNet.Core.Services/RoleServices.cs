@@ -22,7 +22,7 @@ namespace DNet.Core.Services
         public RoleServices(IRoleRepository dal)
         {
             this.dal = dal;
-            base.baseDal = dal;
+            base.BaseDal = dal;
         }
        
     }

@@ -22,7 +22,7 @@ namespace DNet.Core.Services
         public TopicServices(ITopicRepository dal)
         {
             this.dal = dal;
-            base.baseDal = dal;
+            base.BaseDal = dal;
         }
        
     }

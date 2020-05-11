@@ -1,40 +1,194 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extras.DynamicProxy;
+using AutoMapper;
+using DNet.Core.Common;
+using DNet.Core.Common.Redis;
+using DNet.Core.Extensions;
+using DNet.Core.Filter;
+using DNet.Core.IServices;
+using DNet.Core.Model;
+using log4net;
+using log4net.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using static DNet.Core.SwaggerHelper.CustomApiVersion;
 
 namespace DNet.Core
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        /// <summary>
+        /// log4net仓储库
+        /// </summary>
+        public static ILoggerRepository Repository { get; set; }
+        private IServiceCollection _services;
+        private List<Type> tsDIAutofac = new List<Type>();
+        private static readonly ILog log = LogManager.GetLogger(typeof(GlobalExceptionFilter));
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Env { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IRedisCacheManager, RedisCacheManager>();
+            services.AddSingleton(new Appsettings(Configuration));
+            services.AddSingleton(new LogLock(Env.ContentRootPath));
+
+            Permissions.IsUseIds4 = Appsettings.app(new string[] { "Startup", "IdentityServer4", "Enabled" }).ObjToBool();
+
+            services.AddMemoryCacheSetup();
+            services.AddSqlsugarSetup();
+            services.AddDbSetup();
+            services.AddAutoMapperSetup();
+            services.AddCorsSetup();
+            services.AddMiniProfilerSetup();
+            services.AddSwaggerSetup();
+            services.AddJobSetup();
+
             services.AddControllers();
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            var basePath = AppContext.BaseDirectory;
+            //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
+            #region 带有接口层的服务注入
+
+
+            var servicesDllFile = Path.Combine(basePath, "DNet.Core.Services.dll");
+            var repositoryDllFile = Path.Combine(basePath, "DNet.Core.Repository.dll");
+
+            if (!(File.Exists(servicesDllFile) && File.Exists(repositoryDllFile)))
+            {
+                var msg = "Repository.dll和service.dll 丢失，因为项目解耦了，所以需要先F6编译，再F5运行，请检查 bin 文件夹，并拷贝。";
+                log.Error(msg);
+                throw new Exception(msg);
+            }
+
+
+
+            // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
+            var cacheType = new List<Type>();
+            //if (Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "Enabled" }).ObjToBool())
+            //{
+            //    builder.RegisterType<BlogRedisCacheAOP>();
+            //    cacheType.Add(typeof(BlogRedisCacheAOP));
+            //}
+            //if (Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool())
+            //{
+            //    builder.RegisterType<BlogCacheAOP>();
+            //    cacheType.Add(typeof(BlogCacheAOP));
+            //}
+            //if (Appsettings.app(new string[] { "AppSettings", "TranAOP", "Enabled" }).ObjToBool())
+            //{
+            //    builder.RegisterType<BlogTranAOP>();
+            //    cacheType.Add(typeof(BlogTranAOP));
+            //}
+            //if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
+            //{
+            //    builder.RegisterType<BlogLogAOP>();
+            //    cacheType.Add(typeof(BlogLogAOP));
+            //}
+
+            // 获取 Service.dll 程序集服务，并注册
+            var assemblysServices = Assembly.LoadFrom(servicesDllFile);
+            builder.RegisterAssemblyTypes(assemblysServices)
+                      .AsImplementedInterfaces()
+                      .InstancePerDependency()
+                      .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy;
+                      .InterceptedBy(cacheType.ToArray());//允许将拦截器服务的列表分配给注册。
+
+            // 获取 Repository.dll 程序集服务，并注册
+            var assemblysRepository = Assembly.LoadFrom(repositoryDllFile);
+            builder.RegisterAssemblyTypes(assemblysRepository)
+                   .AsImplementedInterfaces()
+                   .InstancePerDependency();
+
+            #endregion
+
+            #region 没有接口层的服务层注入
+
+            //因为没有接口层，所以不能实现解耦，只能用 Load 方法。
+            //注意如果使用没有接口的服务，并想对其使用 AOP 拦截，就必须设置为虚方法
+            //var assemblysServicesNoInterfaces = Assembly.Load("Blog.Core.Services");
+            //builder.RegisterAssemblyTypes(assemblysServicesNoInterfaces);
+
+            #endregion
+
+            #region 没有接口的单独类，启用class代理拦截
+
+            //只能注入该类中的虚方法，且必须是public
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Love)))
+                .EnableClassInterceptors()
+                .InterceptedBy(cacheType.ToArray());
+            #endregion
+
+            #region 单独注册一个含有接口的类，启用interface代理拦截
+
+            //不用虚方法
+            //builder.RegisterType<AopService>().As<IAopService>()
+            //   .AsImplementedInterfaces()
+            //   .EnableInterfaceInterceptors()
+            //   .InterceptedBy(typeof(BlogCacheAOP));
+            #endregion
+
+
+            // 这里和注入没关系，只是获取注册列表，请忽略
+            tsDIAutofac.AddRange(assemblysServices.GetTypes().ToList());
+            tsDIAutofac.AddRange(assemblysRepository.GetTypes().ToList());
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IBlogArticleServices _blogArticleServices)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            #region Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                //根据版本名称倒序 遍历展示
+                var ApiName = Appsettings.app(new string[] { "Startup", "ApiName" });
+                typeof(ApiVersion).GetEnumNames().OrderByDescending(e => e).ToList().ForEach(version =>
+                {
+                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{ApiName} {version}");
+                });
 
+                // 将swagger首页，设置成我们自定义的页面，记得这个字符串的写法：解决方案名.index.html
+                c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("DNet.Core.index.html");
+
+                if (GetType().GetTypeInfo().Assembly.GetManifestResourceStream("DNet.Core.index.html") == null)
+                {
+                    var msg = "index.html的属性，必须设置为嵌入的资源";
+                    log.Error(msg);
+                    throw new Exception(msg);
+                }
+
+                // 路径配置，设置为空，表示直接在根域名（localhost:8001）访问该文件,注意localhost:8001/swagger是访问不到的，去launchSettings.json把launchUrl去掉，如果你想换一个路径，直接写名字即可，比如直接写c.RoutePrefix = "doc";
+                c.RoutePrefix = "";
+            });
+            #endregion
             app.UseRouting();
 
             app.UseAuthorization();

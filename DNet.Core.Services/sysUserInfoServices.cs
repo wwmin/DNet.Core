@@ -22,7 +22,7 @@ namespace DNet.Core.Services
         public sysUserInfoServices(IsysUserInfoRepository dal)
         {
             this.dal = dal;
-            base.baseDal = dal;
+            base.BaseDal = dal;
         }
        
     }

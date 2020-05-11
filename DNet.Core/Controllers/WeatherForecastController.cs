@@ -7,8 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace DNet.Core.Controllers
 {
+    /// <summary>
+    /// 天气接口
+    /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

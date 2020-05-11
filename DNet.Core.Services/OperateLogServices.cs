@@ -22,7 +22,7 @@ namespace DNet.Core.Services
         public OperateLogServices(IOperateLogRepository dal)
         {
             this.dal = dal;
-            base.baseDal = dal;
+            base.BaseDal = dal;
         }
        
     }

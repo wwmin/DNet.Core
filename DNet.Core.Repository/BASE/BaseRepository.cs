@@ -1,5 +1,6 @@
 ﻿using DNet.Core.Common;
 using DNet.Core.IRepository;
+using DNet.Core.IRepository.Base;
 using DNet.Core.IRepository.UnitOfWork;
 using DNet.Core.Model;
 using SqlSugar;

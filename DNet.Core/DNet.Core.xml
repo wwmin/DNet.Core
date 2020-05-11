@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DNet.Core</name>
+    </assembly>
+    <members>
+        <member name="T:DNet.Core.AutoMapper.AutoMapperConfig">
+            <summary>
+            静态全局AutoMapper配置文件
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AutoMapper.CustomProfile.#ctor">
+            <summary>
+            配置构造函数,用来创建关系映射
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Controllers.WeatherForecastController">
+            <summary>
+            天气接口
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.AutoMapperSetup">
+            <summary>
+            Automapper启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.CorsSetup">
+            <summary>
+            Cors启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.DbSetup">
+            <summary>
+            Db 启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.MemoryCacheSetup">
+            <summary>
+            内存缓存
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.MiniProfilerSetup">
+            <summary>
+            MiniProfiler启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.SqlsugarSetup">
+            <summary>
+            SqlSugar启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.SwaggerSetup">
+            <summary>
+            Swagger启动服务
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Extensions.SwaggerSetup.AddSwaggerSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加Swagger
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:DNet.Core.Filter.GlobalExceptionFilter.WriteLog(System.String,System.Exception)">
+            <summary>
+            自定义返回格式
+            </summary>
+            <param name="throwMsg"></param>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="P:DNet.Core.Filter.JsonErrorResponse.Message">
+            <summary>
+            生产环境的消息
+            </summary>
+        </member>
+        <member name="P:DNet.Core.Filter.JsonErrorResponse.DevelopmentMessage">
+            <summary>
+            开发环境的消息
+            </summary>
+        </member>
+        <member name="P:DNet.Core.Startup.Repository">
+            <summary>
+            log4net仓储库
+            </summary>
+        </member>
+        <member name="T:DNet.Core.SwaggerHelper.CustomApiVersion">
+            <summary>
+            自定义Api版本
+            </summary>
+        </member>
+        <member name="F:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersion.V1">
+            <summary>
+            V1版本
+            </summary>
+        </member>
+        <member name="F:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersion.V2">
+            <summary>
+            V2版本
+            </summary>
+        </member>
+    </members>
+</doc>

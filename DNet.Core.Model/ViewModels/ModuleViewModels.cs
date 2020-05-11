@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DNet.Core.Model.ViewModels
 {
-    class ModuleViewModels
+    public class ModuleViewModels
     {
     }
 }

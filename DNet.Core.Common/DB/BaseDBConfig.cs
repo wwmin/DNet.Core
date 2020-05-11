@@ -33,9 +33,16 @@ namespace DNet.Core.Common
             return conn[conn.Length - 1];
         }
 
-        public static (List<MutiDBOperate>,List<MutiDBOperate>) MutiInitConn()
+        public static (List<MutiDBOperate>, List<MutiDBOperate>) MutiInitConn()
         {
             List<MutiDBOperate> listDataBase = Appsettings.app<MutiDBOperate>("DBS").Where(i => i.Enabled).ToList();
+            if (listDataBase.Count == 0)
+            {
+                var msg = "请在appsettings.json文件中配置数据库连接信息";
+
+                ConsoleHelper.WriteErrorLine(msg);
+                throw new Exception(msg);
+            };
             foreach (var i in listDataBase)
             {
                 SpecialDbString(i);
