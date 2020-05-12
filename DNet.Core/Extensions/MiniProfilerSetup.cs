@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Profiling.Storage;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Extensions
 {
@@ -25,8 +21,8 @@ namespace DNet.Core.Extensions
                 options.PopupShowTimeWithChildren = true;
 
                 //可以增加权限
-                options.ResultsAuthorize = request => request.HttpContext.User.IsInRole("Admin");
-                options.UserIdProvider = request => request.HttpContext.User.Identity.Name;
+                //options.ResultsAuthorize = request => request.HttpContext.User.IsInRole("Admin");
+                //options.UserIdProvider = request => request.HttpContext.User.Identity.Name;
             });
         }
     }

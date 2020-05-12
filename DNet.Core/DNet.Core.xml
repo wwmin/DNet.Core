@@ -4,6 +4,198 @@
         <name>DNet.Core</name>
     </assembly>
     <members>
+        <member name="T:DNet.Core.AOP.BlogCacheAOP">
+            <summary>
+            面向切面的缓存使用
+            </summary>
+        </member>
+        <member name="T:DNet.Core.AOP.BlogLogAOP">
+            <summary>
+            拦截器BlogLogAOP 继承IInterceptor接口
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AOP.BlogRedisCacheAOP.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            Intercept 方式是拦截的关键所在,也是IInterceptor接口中的唯一定义
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="T:DNet.Core.AOP.BlogTranAOP">
+            <summary>
+            事务拦截器BlogTranAOP 继承IInterceptor接口
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AOP.BlogTranAOP.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            实例化IInterceptor唯一方法 
+            </summary>
+            <param name="invocation">包含被拦截方法的信息</param>
+        </member>
+        <member name="M:DNet.Core.AOP.CacheAOPbase.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            AOP的拦截方法
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:DNet.Core.AOP.CacheAOPbase.GetArgumentValue(System.Object)">
+            <summary>
+            object 转 string
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.JwtHelper.IssueJwt(DNet.Core.AuthHelper.TokenModelJwt)">
+            <summary>
+            颁发JWT字符串
+            </summary>
+            <param name="tokenModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.JwtHelper.SerializeJwt(System.String)">
+            <summary>
+            解析
+            </summary>
+            <param name="jwtStr"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DNet.Core.AuthHelper.TokenModelJwt">
+            <summary>
+            令牌
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.TokenModelJwt.Uid">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.TokenModelJwt.Role">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.TokenModelJwt.Work">
+            <summary>
+            职能
+            </summary>
+        </member>
+        <member name="T:DNet.Core.AuthHelper.JwtTokenAuth">
+            <summary>
+            中间件
+            原做为自定义授权中间件
+            现做检查 header token的使用
+            </summary>
+        </member>
+        <member name="F:DNet.Core.AuthHelper.JwtTokenAuth._next">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.JwtTokenAuth.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.JwtTokenAuth.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            
+            </summary>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DNet.Core.AuthHelper.PermissionHandler">
+            <summary>
+            权限授权处理器
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionHandler.Schemes">
+            <summary>
+            验证方案提供对象
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,DNet.Core.IServices.IRoleModulePermissionServices,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            构造函数注入
+            </summary>
+            <param name="schemes"></param>
+            <param name="roleModulePermissionServices"></param>
+            <param name="accessor"></param>
+        </member>
+        <member name="T:DNet.Core.AuthHelper.PermissionItem">
+            <summary>
+            用户或角色或其他凭据实体,就像是订单详情一样
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionItem.Role">
+            <summary>
+            用户或角色或其他凭据名称
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionItem.Url">
+            <summary>
+            请求Url
+            </summary>
+        </member>
+        <member name="T:DNet.Core.AuthHelper.PermissionRequirement">
+            <summary>
+            必要参数类，类似一个订单信息
+            继承 IAuthorizationRequirement，用于设计自定义权限处理器PermissionHandler
+            因为AuthorizationHandler 中的泛型参数 TRequirement 必须继承 IAuthorizationRequirement
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.Permissions">
+            <summary>
+            用户权限集合，一个订单包含了很多详情，
+            同理，一个网站的认证发行中，也有很多权限详情(这里是Role和URL的关系)
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.DeniedAction">
+            <summary>
+            无权限action
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.ClaimType">
+            <summary>
+            认证授权类型
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.LoginPath">
+            <summary>
+            请求路径
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.Issuer">
+            <summary>
+            发行人
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.Audience">
+            <summary>
+            订阅人
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.Expiration">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:DNet.Core.AuthHelper.PermissionRequirement.SigningCredentials">
+            <summary>
+            签名验证
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.PermissionRequirement.#ctor(System.String,System.Collections.Generic.List{DNet.Core.AuthHelper.PermissionItem},System.String,System.String,System.String,Microsoft.IdentityModel.Tokens.SigningCredentials,System.TimeSpan)">
+            <summary>
+            构造
+            </summary>
+            <param name="deniedAction">拒约请求的url</param>
+            <param name="permissions">权限集合</param>
+            <param name="claimType">声明类型</param>
+            <param name="issuer">发行人</param>
+            <param name="audience">订阅人</param>
+            <param name="signingCredentials">签名验证实体</param>
+            <param name="expiration">过期时间</param>
+        </member>
         <member name="T:DNet.Core.AutoMapper.AutoMapperConfig">
             <summary>
             静态全局AutoMapper配置文件
@@ -19,10 +211,42 @@
             天气接口
             </summary>
         </member>
+        <member name="T:DNet.Core.Extensions.AppConfigSetup">
+            <summary>
+            AppConfig提示
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Extensions.AppConfigSetup.AddAppConfigSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            AppConfig提示
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:DNet.Core.Extensions.AuthorizationSetup">
+            <summary>
+            Jwt 启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.Authorization_Ids4Setup">
+            <summary>
+            权限 启动服务
+            </summary>
+        </member>
         <member name="T:DNet.Core.Extensions.AutoMapperSetup">
             <summary>
             Automapper启动服务
             </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.ControllerSetup">
+            <summary>
+            启动controller服务
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Extensions.ControllerSetup.AddControllerSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册controller
+            </summary>
+            <param name="services"></param>
         </member>
         <member name="T:DNet.Core.Extensions.CorsSetup">
             <summary>
@@ -32,6 +256,22 @@
         <member name="T:DNet.Core.Extensions.DbSetup">
             <summary>
             Db 启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.HttpContextSetup">
+            <summary>
+            HttpContext
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Extensions.HttpContextSetup.AddHttpContextSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            HttpContext服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:DNet.Core.Extensions.IpPolicyRateLimitSetup">
+            <summary>
+            启动限流服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.MemoryCacheSetup">
@@ -60,6 +300,25 @@
             </summary>
             <param name="services"></param>
         </member>
+        <member name="T:DNet.Core.Extensions.WebApiClientSetup">
+            <summary>
+            WebApiClientSetup 启动服务
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Extensions.WebApiClientSetup.AddHttpApiSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册WebApiClient接口
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:DNet.Core.Filter.GlobalRouteAuthorizeConvention">
+            <summary>
+            Summary:全局路由权限公约
+            Remarks:目的是针对不同的路由，采用不同的授权过滤器
+            如果 controller 上不加 [Authorize] 特性，默认都是 Permission 策略
+            否则，如果想特例其他授权机制的话，需要在 controller 上带上  [Authorize]，然后再action上自定义授权即可，比如 [Authorize(Roles = "Admin")]
+            </summary>
+        </member>
         <member name="M:DNet.Core.Filter.GlobalExceptionFilter.WriteLog(System.String,System.Exception)">
             <summary>
             自定义返回格式
@@ -77,6 +336,108 @@
             <summary>
             开发环境的消息
             </summary>
+        </member>
+        <member name="T:DNet.Core.Filter.GlobalRoutePrefixFilter">
+            <summary>
+             全局路由前缀公约
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Middlewares.AllServicesMidd">
+            <summary>
+            查看所有已注册的服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Middlewares.ExceptionHandlerMidd">
+            <summary>
+            异常处理中间件
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Middlewares.IPLogMidd">
+            <summary>
+            中间件
+            记录IP请求数据
+            </summary>
+        </member>
+        <member name="F:DNet.Core.Middlewares.IPLogMidd._next">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Middlewares.IPLogMidd.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseJwtTokenAuthMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            自定义授权中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseRequestResponseLogMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            请求响应中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseSignalRSendMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            SignalR中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseExceptionHandlerMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            异常处理中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseIPLogMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            IP请求中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DNet.Core.Middlewares.RequRespLogMidd">
+            <summary>
+            中间件
+            记录请求和响应数据
+            </summary>
+        </member>
+        <member name="F:DNet.Core.Middlewares.RequRespLogMidd._next">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Middlewares.RequRespLogMidd.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="T:DNet.Core.Middlewares.SignalRSendMidd">
+            <summary>
+            中间件
+            记录请求和响应数据
+            </summary>
+        </member>
+        <member name="F:DNet.Core.Middlewares.SignalRSendMidd._next">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Middlewares.SignalRSendMidd.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.AspNetCore.SignalR.IHubContext{DNet.Core.Common.ChatHub})">
+            <summary>
+            
+            </summary>
+            <param name="next"></param>
+            <param name="hubContext"></param>
         </member>
         <member name="P:DNet.Core.Startup.Repository">
             <summary>

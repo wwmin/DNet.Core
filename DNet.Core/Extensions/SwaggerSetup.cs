@@ -102,8 +102,6 @@ namespace DNet.Core.Extensions
                     });
                 }
             });
-
-
         }
     }
 }

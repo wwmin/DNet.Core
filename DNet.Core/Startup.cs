@@ -4,14 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
+using DNet.Core.AOP;
 using DNet.Core.Common;
 using DNet.Core.Common.Redis;
 using DNet.Core.Extensions;
 using DNet.Core.Filter;
 using DNet.Core.IServices;
+using DNet.Core.Middlewares;
 using DNet.Core.Model;
 using log4net;
 using log4net.Repository;
@@ -19,11 +22,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using WebApiClient.Extensions.DependencyInjection;
 using static DNet.Core.SwaggerHelper.CustomApiVersion;
 
 namespace DNet.Core
@@ -63,8 +70,28 @@ namespace DNet.Core
             services.AddMiniProfilerSetup();
             services.AddSwaggerSetup();
             services.AddJobSetup();
+            services.AddHttpContextSetup();
+            services.AddAppConfigSetup();
+            services.AddHttpApiSetup();
+            if (Permissions.IsUseIds4)
+            {
+                services.AddAuthorization_Ids4Setup();
+            }
+            else
+            {
+                services.AddAuthorizationSetup();
+            }
+            services.AddIpPolicyRateLimitSetup(Configuration);
 
-            services.AddControllers();
+            services.AddSignalR().AddNewtonsoftJsonProtocol();
+
+            //services.AddScoped<UseServiceDIAttribute>();
+
+            services.Configure<KestrelServerOptions>(x => x.AllowSynchronousIO = true)
+                   .Configure<IISServerOptions>(x => x.AllowSynchronousIO = true);
+
+            services.AddControllerSetup();
+            _services = services;
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -88,26 +115,26 @@ namespace DNet.Core
 
             // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
             var cacheType = new List<Type>();
-            //if (Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "Enabled" }).ObjToBool())
-            //{
-            //    builder.RegisterType<BlogRedisCacheAOP>();
-            //    cacheType.Add(typeof(BlogRedisCacheAOP));
-            //}
-            //if (Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool())
-            //{
-            //    builder.RegisterType<BlogCacheAOP>();
-            //    cacheType.Add(typeof(BlogCacheAOP));
-            //}
-            //if (Appsettings.app(new string[] { "AppSettings", "TranAOP", "Enabled" }).ObjToBool())
-            //{
-            //    builder.RegisterType<BlogTranAOP>();
-            //    cacheType.Add(typeof(BlogTranAOP));
-            //}
-            //if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
-            //{
-            //    builder.RegisterType<BlogLogAOP>();
-            //    cacheType.Add(typeof(BlogLogAOP));
-            //}
+            if (Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "Enabled" }).ObjToBool())
+            {
+                builder.RegisterType<BlogRedisCacheAOP>();
+                cacheType.Add(typeof(BlogRedisCacheAOP));
+            }
+            if (Appsettings.app(new string[] { "AppSettings", "MemoryCachingAOP", "Enabled" }).ObjToBool())
+            {
+                builder.RegisterType<BlogCacheAOP>();
+                cacheType.Add(typeof(BlogCacheAOP));
+            }
+            if (Appsettings.app(new string[] { "AppSettings", "TranAOP", "Enabled" }).ObjToBool())
+            {
+                builder.RegisterType<BlogTranAOP>();
+                cacheType.Add(typeof(BlogTranAOP));
+            }
+            if (Appsettings.app(new string[] { "AppSettings", "LogAOP", "Enabled" }).ObjToBool())
+            {
+                builder.RegisterType<BlogLogAOP>();
+                cacheType.Add(typeof(BlogLogAOP));
+            }
 
             // 获取 Service.dll 程序集服务，并注册
             var assemblysServices = Assembly.LoadFrom(servicesDllFile);
@@ -158,12 +185,35 @@ namespace DNet.Core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IBlogArticleServices _blogArticleServices)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IBlogArticleServices _blogArticleServices, ILoggerFactory loggerFactory)
         {
+            //Ip限流,尽量放管道外层
+            app.UseIpRateLimiting();
+            //记录所有的访问记录
+            loggerFactory.AddLog4Net();
+            //记录请求与返回数据
+            app.UseRequestResponseLogMidd();
+            // signalr
+            app.UseSignalRSendMidd();
+            // 记录ip请求
+            app.UseIPLogMidd();
+            //查看注入的所有服务
+            app.UseAllServicesMidd(_services, tsDIAutofac);
+            #region Environment
             if (env.IsDevelopment())
             {
+                // 在开发环境中，使用异常页面，这样可以暴露错误堆栈信息，所以不要放在生产环境。
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // 在非开发环境中，使用HTTP严格安全传输(or HSTS) 对于保护web安全是非常重要的。
+                // 强制实施 HTTPS 在 ASP.NET Core，配合 app.UseHttpsRedirection
+                //app.UseHsts();
+            }
+            #endregion
+
             #region Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -189,13 +239,39 @@ namespace DNet.Core
                 c.RoutePrefix = "";
             });
             #endregion
-            app.UseRouting();
 
+            // ↓↓↓↓↓↓ 注意下边这些中间件的顺序，很重要 ↓↓↓↓↓↓
+            app.UseCors("LimitRequests");
+            // 跳转https
+            //app.UseHttpsRedirection();
+            //使用静态文件
+            app.UseStaticFiles();
+            //使用cookie
+            app.UseCookiePolicy();
+            //返回错误码 ,比如404
+            app.UseStatusCodePages();
+            //Routing
+            app.UseRouting();
+            //这种自定义授权中间件,可以尝试,但不推荐
+            //app.UseJwtTokenAuthMidd();
+            // 先开启认证
             app.UseAuthorization();
+            // 然后是授权中间件
+            app.UseAuthorization();
+
+            //开启异常中间件,要放到最后
+            //app.UseExceptionHandlerMidd();
+
+            //开启审计
+            app.UseMiniProfiler();
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/api2/chatHub");
             });
         }
     }

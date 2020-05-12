@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
         html {
             box-sizing: border-box;
@@ -29,6 +30,12 @@
         body {
             margin: 0;
             background: #fafafa;
+        }
+        .qqgroup {
+            float: right;
+        }
+        .info {
+            float: left;
         }
     </style>
     %(HeadContent)
@@ -65,8 +72,16 @@
       const ui = SwaggerUIBundle(configObject);
       ui.initOAuth(oauthConfigObject);
       // End Swagger UI call region
-      window.ui = ui
+      window.ui = ui;
+      this.setTimeout(() => {
+          getData();
+      },1000)
     }
+        function getData() {
+            if ($(".qqgroup").length <= 0) {
+                $('.info').after("<div class='qqgroup'><img src='https://avatars2.githubusercontent.com/u/7775200?s=460&u=4bc6e999cda957011a8986d5a2cda6c61243c9ed&v=4' alt='wwmin' style='width: 200px;'><div style=\"margin-left: 16px;color: #4990e2;\"><a href=\"../allservices\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"link\">查看所有注册的服务</a></div></div><div style='clear: both;'></div>");
+            }
+        }
     </script>
 </body>
 </html>
