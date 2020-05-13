@@ -28,26 +28,32 @@ namespace DNet.Core
             //生成承载web应用程序的Microsoft.AspNetCore.Hosting.IWebHost,Build是WebHostBuilder最终的目的,将返回一个构造的WebHost,最终生成宿主
 
             var host = CreateHostBuilder(args).Build();//.Run();
-            using (var scope = host.Services.CreateScope())
+            var hadSeeded = Environment.GetEnvironmentVariable("ASPNETCORE_HAD_SEED");
+            ConsoleHelper.WriteSuccessLine("数据库是否已经添加种子:" + (hadSeeded == "1" ? "是" : "否"));
+            if (hadSeeded != "1")
             {
-                var services = scope.ServiceProvider;
-                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-                try
+                using (var scope = host.Services.CreateScope())
                 {
-                    //从system.IServices提供程序获取T类型的服务
-                    //数据库连接字符串是在Model层的Seed文件夹下的MyContext.cs中
-                    var configuration = services.GetRequiredService<IConfiguration>();
-                    if (configuration.GetSection("AppSettings")["SeedDBEnabled"].ObjToBool() || configuration.GetSection("AppSettings")["SeedDBDataEnabled"].ObjToBool())
+                    var services = scope.ServiceProvider;
+                    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                    try
                     {
-                        var myContext = services.GetRequiredService<MyContext>();
-                        var env = services.GetRequiredService<IWebHostEnvironment>();
-                        DBSeed.SeedAsync(myContext, env.WebRootPath).Wait();
+                        //从system.IServices提供程序获取T类型的服务
+                        //数据库连接字符串是在Model层的Seed文件夹下的MyContext.cs中
+                        var configuration = services.GetRequiredService<IConfiguration>();
+                        if (configuration.GetSection("AppSettings")["SeedDBEnabled"].ObjToBool() || configuration.GetSection("AppSettings")["SeedDBDataEnabled"].ObjToBool())
+                        {
+                            var myContext = services.GetRequiredService<MyContext>();
+                            var env = services.GetRequiredService<IWebHostEnvironment>();
+                            DBSeed.SeedAsync(myContext, env.WebRootPath).Wait();
+                            Environment.SetEnvironmentVariable("ASPNETCORE_HAD_SEED", "1");
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    log.Error($"Error occured seeding the Database.\n{e.Message}");
-                    throw;
+                    catch (Exception e)
+                    {
+                        log.Error($"Error occured seeding the Database.\n{e.Message}");
+                        throw;
+                    }
                 }
             }
 
