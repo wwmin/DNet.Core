@@ -13,7 +13,7 @@ namespace DNet.Core.Tasks.HostedService
         private Timer _timer;
         private readonly IBlogArticleServices _blogArticleServices;
 
-        //这里可以注入
+        // 这里可以注入
         public Job1TimedService(IBlogArticleServices blogArticleServices)
         {
             _blogArticleServices = blogArticleServices;
@@ -22,7 +22,10 @@ namespace DNet.Core.Tasks.HostedService
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine("Job 1 is starting.");
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(60 * 60));//一个小时
+
+            _timer = new Timer(DoWork, null, TimeSpan.Zero,
+                TimeSpan.FromSeconds(60 * 60));//一个小时
+
             return Task.CompletedTask;
         }
 
@@ -37,12 +40,13 @@ namespace DNet.Core.Tasks.HostedService
             {
                 Console.WriteLine($"Error:{ex.Message}");
             }
+
             ConsoleHelper.WriteSuccessLine($"Job 1： {DateTime.Now}");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine("Job 1 is stopping");
+            Console.WriteLine("Job 1 is stopping.");
 
             _timer?.Change(Timeout.Infinite, 0);
 

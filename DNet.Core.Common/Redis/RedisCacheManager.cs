@@ -1,7 +1,5 @@
-﻿using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using StackExchange.Redis;
 
 namespace DNet.Core.Common.Redis
 {

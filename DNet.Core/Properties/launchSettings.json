@@ -23,7 +23,7 @@
       "launchBrowser": true,
       "launchUrl": "index.html",
       "environmentVariables": {
-        "ASPNETCORE_HAD_SEED": "1",
+        "ASPNETCORE_HAD_SEED": "0",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"

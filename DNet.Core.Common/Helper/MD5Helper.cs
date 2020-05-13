@@ -12,6 +12,7 @@ namespace DNet.Core.Common
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
+        [Caching]
         public static string MD5Encrypt16(string password)
         {
             var md5 = new MD5CryptoServiceProvider();
@@ -25,6 +26,7 @@ namespace DNet.Core.Common
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
+        [Caching]
         public static string MD5Encrypt32(string password = "")
         {
             string pwd = string.Empty;
@@ -55,6 +57,7 @@ namespace DNet.Core.Common
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
+        [Caching]
         public static string MD5Encrypt64(string password)
         {
             // 实例化一个md5对像
