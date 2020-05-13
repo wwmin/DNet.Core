@@ -1,17 +1,18 @@
-﻿using DNet.Core.Common;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using DNet.Core.Common;
+using DNet.Core.Common.AppConfig;
+using Microsoft.IdentityModel.Tokens;
 
-namespace DNet.Core.AuthHelper
+namespace DNet.Core.AuthHelper.OverWrite
 {
     public class JwtHelper
     {
+
         /// <summary>
         /// 颁发JWT字符串
         /// </summary>

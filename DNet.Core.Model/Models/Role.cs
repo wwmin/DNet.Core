@@ -1,11 +1,14 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ½ÇÉ«±í
+    /// è§’è‰²è¡¨
     /// </summary>
     public class Role : RootEntity
     {
@@ -28,59 +31,59 @@ namespace DNet.Core.Model.Models
         }
 
         /// <summary>
-        ///»ñÈ¡»òÉèÖÃÊÇ·ñ½ûÓÃ£¬Âß¼­ÉÏµÄÉ¾³ı£¬·ÇÎïÀíÉ¾³ı
+        ///è·å–æˆ–è®¾ç½®æ˜¯å¦ç¦ç”¨ï¼Œé€»è¾‘ä¸Šçš„åˆ é™¤ï¼Œéç‰©ç†åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
         /// <summary>
-        /// ½ÇÉ«Ãû
+        /// è§’è‰²å
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string Name { get; set; }
         /// <summary>
-        ///ÃèÊö
+        ///æè¿°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string Description { get; set; }
         /// <summary>
-        ///ÅÅĞò
+        ///æ’åº
         /// </summary>
         public int OrderSort { get; set; }
         /// <summary>
-        /// ÊÇ·ñ¼¤»î
+        /// æ˜¯å¦æ¿€æ´»
         /// </summary>
         public bool Enabled { get; set; }
         /// <summary>
-        /// ´´½¨ID
+        /// åˆ›å»ºID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? CreateId { get; set; }
         /// <summary>
-        /// ´´½¨Õß
+        /// åˆ›å»ºè€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string CreateBy { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? CreateTime { get; set; } = DateTime.Now;
         /// <summary>
-        /// ĞŞ¸ÄID
+        /// ä¿®æ”¹ID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? ModifyId { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÕß
+        /// ä¿®æ”¹è€…
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public string ModifyBy { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÊ±¼ä
+        /// ä¿®æ”¹æ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? ModifyTime { get; set; } = DateTime.Now;
 
 
     }
-}	 
+}

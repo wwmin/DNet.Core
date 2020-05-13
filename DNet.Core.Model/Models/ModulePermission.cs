@@ -1,55 +1,58 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ²Ëµ¥Óë°´Å¥¹ØÏµ±í
+    /// èœå•ä¸æŒ‰é’®å…³ç³»è¡¨
     /// </summary>
     public class ModulePermission : RootEntity
     {
 
         /// <summary>
-        ///»ñÈ¡»òÉèÖÃÊÇ·ñ½ûÓÃ£¬Âß¼­ÉÏµÄÉ¾³ı£¬·ÇÎïÀíÉ¾³ı
+        ///è·å–æˆ–è®¾ç½®æ˜¯å¦ç¦ç”¨ï¼Œé€»è¾‘ä¸Šçš„åˆ é™¤ï¼Œéç‰©ç†åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
         /// <summary>
-        /// ²Ëµ¥ID
+        /// èœå•ID
         /// </summary>
         public int ModuleId { get; set; }
         /// <summary>
-        /// °´Å¥ID
+        /// æŒ‰é’®ID
         /// </summary>
         public int PermissionId { get; set; }
         /// <summary>
-        /// ´´½¨ID
+        /// åˆ›å»ºID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? CreateId { get; set; }
         /// <summary>
-        /// ´´½¨Õß
+        /// åˆ›å»ºè€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string CreateBy { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? CreateTime { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄID
+        /// ä¿®æ”¹ID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? ModifyId { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÕß
+        /// ä¿®æ”¹è€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string ModifyBy { get; set; }
         /// <summary>
-        ///ĞŞ¸ÄÊ±¼ä
+        ///ä¿®æ”¹æ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? ModifyTime { get; set; }
@@ -57,4 +60,4 @@ namespace DNet.Core.Model.Models
         //public virtual Module Module { get; set; }
         //public virtual Permission Permission { get; set; }
     }
-}	 
+}

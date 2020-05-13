@@ -1,16 +1,15 @@
-﻿using Castle.DynamicProxy;
-using DNet.Core.Common;
+﻿using DNet.Core.Common;
+using DNet.Core.Common.MemoryCache;
+using Castle.DynamicProxy;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.AOP
 {
     /// <summary>
     /// 面向切面的缓存使用
     /// </summary>
-    public class BlogCacheAOP:CacheAOPbase
+    public class BlogCacheAOP : CacheAOPbase
     {
         //通过注入的方式，把缓存操作接口通过构造函数注入
         private readonly ICaching _cache;
@@ -18,6 +17,7 @@ namespace DNet.Core.AOP
         {
             _cache = cache;
         }
+
         //Intercept方法是拦截的关键所在，也是IInterceptor接口中的唯一定义
         public override void Intercept(IInvocation invocation)
         {
@@ -50,4 +50,5 @@ namespace DNet.Core.AOP
             }
         }
     }
+
 }

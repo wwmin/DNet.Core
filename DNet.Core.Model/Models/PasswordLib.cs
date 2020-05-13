@@ -1,20 +1,23 @@
-using SqlSugar;
+锘縰sing SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// 密码库表
+    /// 瀵嗙爜搴撹〃
     /// </summary>
-    [SugarTable("PasswordLib")]
+    [SugarTable("PasswordLib", "WMBLOG_MSSQL_2")]
     public class PasswordLib
     {
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int PLID { get; set; }
 
         /// <summary>
-        ///获取或设置是否禁用，逻辑上的删除，非物理删除
+        ///鑾峰彇鎴栬缃槸鍚︾鐢紝閫昏緫涓婄殑鍒犻櫎锛岄潪鐗╃悊鍒犻櫎
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
@@ -54,4 +57,4 @@ namespace DNet.Core.Model.Models
 
 
     }
-}	 
+}

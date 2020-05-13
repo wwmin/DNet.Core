@@ -1,19 +1,14 @@
-	//----------Topic开始----------
-    
-	
-using DNet.Core.IRepository.Base;
+﻿using DNet.Core.IRepository.Base;
 using DNet.Core.Model.Models;
-namespace DNet.Core.IRepository
-{	
-	/// <summary>
-	/// ITopicRepository
-	/// </summary>	
-	public interface ITopicRepository : IBaseRepository<Topic>//类名
-    {
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-       
+namespace DNet.Core.IRepository
+{
+    public interface ITopicRepository : IBaseRepository<Topic>
+    {
     }
 }
-
-	//----------Topic结束----------
-	

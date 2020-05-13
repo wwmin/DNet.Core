@@ -3,25 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core", "DNet.Core\DNet.Core.csproj", "{54F43508-C2DE-49D3-A9ED-96ED5976B288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core", "DNet.Core\DNet.Core.csproj", "{54F43508-C2DE-49D3-A9ED-96ED5976B288}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.Common", "DNet.Core.Common\DNet.Core.Common.csproj", "{EFF19C83-4946-4CD4-94D2-4A6923FE3E02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.Common", "DNet.Core.Common\DNet.Core.Common.csproj", "{EFF19C83-4946-4CD4-94D2-4A6923FE3E02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.FrameWork", "DNet.Core.FrameWork\DNet.Core.FrameWork.csproj", "{B63F87E0-E65E-4F2E-A265-FA089E349025}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.FrameWork", "DNet.Core.FrameWork\DNet.Core.FrameWork.csproj", "{B63F87E0-E65E-4F2E-A265-FA089E349025}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.Model", "DNet.Core.Model\DNet.Core.Model.csproj", "{6D4AE572-EB1A-4942-8BF7-EC90187B6007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.Model", "DNet.Core.Model\DNet.Core.Model.csproj", "{6D4AE572-EB1A-4942-8BF7-EC90187B6007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.FrameWork.IServices", "DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IServices.csproj", "{3186CFC6-7A69-428C-995F-56B5D76222E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.Repository", "DNet.Core.Repository\DNet.Core.Repository.csproj", "{BD6AD34D-AF70-48F7-8520-C5D90B101166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.Repository", "DNet.Core.Repository\DNet.Core.Repository.csproj", "{BD6AD34D-AF70-48F7-8520-C5D90B101166}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.Tasks", "DNet.Core.Tasks\DNet.Core.Tasks.csproj", "{40129F4C-FE16-4CDA-B99E-1E735A54E527}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.Tasks", "DNet.Core.Tasks\DNet.Core.Tasks.csproj", "{40129F4C-FE16-4CDA-B99E-1E735A54E527}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.Services", "DNet.Core.Services\DNet.Core.Services.csproj", "{CB3B9756-8801-42B3-978C-DCB0C65E8F19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.Services", "DNet.Core.Services\DNet.Core.Services.csproj", "{CB3B9756-8801-42B3-978C-DCB0C65E8F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.IRepository", "DNet.Core.IRepository\DNet.Core.IRepository.csproj", "{C9A1C80D-4870-4709-ABD6-7E3980A539EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.IRepository", "DNet.Core.IRepository\DNet.Core.IRepository.csproj", "{C9A1C80D-4870-4709-ABD6-7E3980A539EA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNet.Core.IServices", "DNet.Core.IServices\DNet.Core.IServices.csproj", "{5348A3A1-25D8-4F3A-883D-5E89780E031F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DNet.Core.IServices", "DNet.Core.IServices\DNet.Core.IServices.csproj", "{5348A3A1-25D8-4F3A-883D-5E89780E031F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +43,6 @@ Global
 		{6D4AE572-EB1A-4942-8BF7-EC90187B6007}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D4AE572-EB1A-4942-8BF7-EC90187B6007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D4AE572-EB1A-4942-8BF7-EC90187B6007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3186CFC6-7A69-428C-995F-56B5D76222E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3186CFC6-7A69-428C-995F-56B5D76222E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3186CFC6-7A69-428C-995F-56B5D76222E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3186CFC6-7A69-428C-995F-56B5D76222E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD6AD34D-AF70-48F7-8520-C5D90B101166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD6AD34D-AF70-48F7-8520-C5D90B101166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD6AD34D-AF70-48F7-8520-C5D90B101166}.Release|Any CPU.ActiveCfg = Release|Any CPU

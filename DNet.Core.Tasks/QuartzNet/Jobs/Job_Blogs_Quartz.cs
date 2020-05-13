@@ -1,22 +1,23 @@
 ﻿using DNet.Core.IServices;
 using Quartz;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DNet.Core.Tasks.QuartzNet.Jobs
+/// <summary>
+/// 这里要注意下，命名空间和程序集是一样的，不然反射不到
+/// </summary>
+namespace DNet.Core.Tasks
 {
     public class Job_Blogs_Quartz : JobBase, IJob
     {
         private readonly IBlogArticleServices _blogArticleServices;
         private readonly ITasksQzServices _tasksQzServices;
+
         public Job_Blogs_Quartz(IBlogArticleServices blogArticleServices, ITasksQzServices tasksQzServices)
         {
             _blogArticleServices = blogArticleServices;
             _tasksQzServices = tasksQzServices;
         }
-
         public async Task Execute(IJobExecutionContext context)
         {
             var executeLog = await ExecuteJob(context, async () => await Run(context));
@@ -45,4 +46,7 @@ namespace DNet.Core.Tasks.QuartzNet.Jobs
             await Console.Out.WriteLineAsync("博客总数量" + list.Count.ToString());
         }
     }
+
+
+
 }

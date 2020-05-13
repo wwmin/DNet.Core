@@ -1,15 +1,12 @@
-﻿using DNet.Core.Common;
+﻿using DNet.Core.Common.MemoryCache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Extensions
 {
     /// <summary>
-    /// 内存缓存
+    /// Cors 启动服务
     /// </summary>
     public static class MemoryCacheSetup
     {

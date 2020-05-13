@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.AutoMapper
 {
     /// <summary>
-    /// 静态全局AutoMapper配置文件
+    /// 静态全局 AutoMapper 配置文件
     /// </summary>
     public class AutoMapperConfig
     {

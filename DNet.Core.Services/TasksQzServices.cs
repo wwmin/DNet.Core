@@ -1,32 +1,20 @@
-	//----------TasksQz开始----------
-    
-
-
-using System;
-using System.Threading.Tasks;
-using DNet.Core.Common;
+﻿
 using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
 using DNet.Core.IServices;
 using DNet.Core.Model.Models;
 using DNet.Core.Services.BASE;
+
 namespace DNet.Core.Services
-{	
-	/// <summary>
-	/// TasksQzServices
-	/// </summary>	
-	public class TasksQzServices : BaseServices<TasksQz>, ITasksQzServices
+{
+    public partial class TasksQzServices : BaseServices<TasksQz>, ITasksQzServices
     {
-	
-        ITasksQzRepository dal;
+        ITasksQzRepository _dal;
         public TasksQzServices(ITasksQzRepository dal)
         {
-            this.dal = dal;
+            this._dal = dal;
             base.BaseDal = dal;
         }
-       
+
     }
 }
-
-	//----------TasksQz结束----------
-	
+                    

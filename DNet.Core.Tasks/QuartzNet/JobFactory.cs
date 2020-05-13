@@ -2,10 +2,8 @@
 using Quartz;
 using Quartz.Spi;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DNet.Core.Tasks.QuartzNet
+namespace DNet.Core.Tasks
 {
     public class JobFactory : IJobFactory
     {
@@ -48,4 +46,5 @@ namespace DNet.Core.Tasks.QuartzNet
 
         }
     }
+
 }

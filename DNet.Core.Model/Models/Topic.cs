@@ -1,33 +1,35 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// Tibug Àà±ð
+    /// Tibug ç±»åˆ«
     /// </summary>
-    public class Topic : RootEntity
+    public class Topic:RootEntity
     {
         public Topic()
         {
             this.TopicDetail = new List<TopicDetail>();
             this.tUpdatetime = DateTime.Now;
         }
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string tLogo { get; set; }
 
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string tName { get; set; }
 
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 400, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 400, IsNullable = true)]
         public string tDetail { get; set; }
 
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string tAuthor { get; set; }
 
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string tSectendDetail { get; set; }
 
         public bool tIsDelete { get; set; }
@@ -40,4 +42,4 @@ namespace DNet.Core.Model.Models
         [SugarColumn(IsIgnore = true)]
         public virtual ICollection<TopicDetail> TopicDetail { get; set; }
     }
-}	 
+}

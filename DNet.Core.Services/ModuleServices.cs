@@ -1,15 +1,8 @@
-	//----------Module开始----------
-    
-
-
-using System;
-using System.Threading.Tasks;
-using DNet.Core.Common;
-using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
-using DNet.Core.IServices;
-using DNet.Core.Model.Models;
 using DNet.Core.Services.BASE;
+using DNet.Core.Model.Models;
+using DNet.Core.IRepository;
+using DNet.Core.IServices;
+
 namespace DNet.Core.Services
 {	
 	/// <summary>
@@ -18,15 +11,12 @@ namespace DNet.Core.Services
 	public class ModuleServices : BaseServices<Module>, IModuleServices
     {
 	
-        IModuleRepository dal;
+        IModuleRepository _dal;
         public ModuleServices(IModuleRepository dal)
         {
-            this.dal = dal;
+            this._dal = dal;
             base.BaseDal = dal;
         }
        
     }
 }
-
-	//----------Module结束----------
-	

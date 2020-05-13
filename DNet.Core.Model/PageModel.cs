@@ -31,4 +31,5 @@ namespace DNet.Core.Model
         public List<T> data { get; set; }
 
     }
+
 }

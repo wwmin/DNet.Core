@@ -1,28 +1,24 @@
-	//----------RoleModulePermission开始----------
-    
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DNet.Core.Common;
-using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
-using DNet.Core.IServices;
+﻿using DNet.Core.Services.BASE;
 using DNet.Core.Model.Models;
-using DNet.Core.Services.BASE;
-namespace DNet.Core.Services
-{	
-	/// <summary>
-	/// RoleModulePermissionServices
-	/// </summary>	
-	public class RoleModulePermissionServices : BaseServices<RoleModulePermission>, IRoleModulePermissionServices
-    {
+using DNet.Core.IServices;
+using DNet.Core.IRepository;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using DNet.Core.Common;
+using System.Linq;
 
+namespace DNet.Core.Services
+{
+    /// <summary>
+    /// RoleModulePermissionServices 应用服务
+    /// </summary>	
+    public class RoleModulePermissionServices : BaseServices<RoleModulePermission>, IRoleModulePermissionServices
+    {
         readonly IRoleModulePermissionRepository _dal;
         readonly IModuleRepository _moduleRepository;
         readonly IRoleRepository _roleRepository;
+
+        // 将多个仓储接口注入
         public RoleModulePermissionServices(IRoleModulePermissionRepository dal, IModuleRepository moduleRepository, IRoleRepository roleRepository)
         {
             this._dal = dal;
@@ -78,6 +74,3 @@ namespace DNet.Core.Services
         }
     }
 }
-
-	//----------RoleModulePermission结束----------
-	

@@ -1,22 +1,17 @@
-	//----------sysUserInfo开始----------
-    
-
-
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using DNet.Core.Common;
-using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
-using DNet.Core.IServices;
 using DNet.Core.Model.Models;
 using DNet.Core.Services.BASE;
-namespace DNet.Core.Services
-{	
-	/// <summary>
-	/// sysUserInfoServices
-	/// </summary>	
-	public class SysUserInfoServices : BaseServices<sysUserInfo>, ISysUserInfoServices
+using DNet.Core.IServices;
+using DNet.Core.IRepository;
+using System.Threading.Tasks;
+using System.Linq;
+using DNet.Core.Common;
+
+namespace DNet.Core.FrameWork.Services
+{
+    /// <summary>
+    /// sysUserInfoServices
+    /// </summary>	
+    public class SysUserInfoServices : BaseServices<sysUserInfo>, ISysUserInfoServices
     {
 
         IsysUserInfoRepository _dal;
@@ -65,7 +60,7 @@ namespace DNet.Core.Services
         {
             string roleName = "";
             var user = (await base.Query(a => a.uLoginName == loginName && a.uLoginPWD == loginPwd)).FirstOrDefault();
-            var roleList = await _roleRepository.Query(a => a.IsDeleted == false);
+            var roleList = await _roleRepository.Query(a => a.IsDeleted==false);
             if (user != null)
             {
                 var userRoles = await _userRoleServices.Query(ur => ur.UserId == user.uID);
@@ -82,5 +77,4 @@ namespace DNet.Core.Services
     }
 }
 
-	//----------sysUserInfo结束----------
-	
+//----------sysUserInfo结束----------

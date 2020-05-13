@@ -2,14 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using DNet.Core.AuthHelper.OverWrite;
+using Microsoft.AspNetCore.Builder;
 
 namespace DNet.Core.AuthHelper
 {
     /// <summary>
     /// 中间件
     /// 原做为自定义授权中间件
-    /// 现做检查 header token的使用
+    /// 先做检查 header token的使用
     /// </summary>
     public class JwtTokenAuth
     {
@@ -86,5 +89,8 @@ namespace DNet.Core.AuthHelper
 
             return _next(httpContext);
         }
+
     }
+
 }
+

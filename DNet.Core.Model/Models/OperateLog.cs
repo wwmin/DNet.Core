@@ -1,61 +1,64 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ÈÕÖ¾¼ÇÂ¼
+    /// æ—¥å¿—è®°å½•
     /// </summary>
     public class OperateLog : RootEntity
     {
 
         /// <summary>
-        ///»ñÈ¡»òÉèÖÃÊÇ·ñ½ûÓÃ£¬Âß¼­ÉÏµÄÉ¾³ı£¬·ÇÎïÀíÉ¾³ı
+        ///è·å–æˆ–è®¾ç½®æ˜¯å¦ç¦ç”¨ï¼Œé€»è¾‘ä¸Šçš„åˆ é™¤ï¼Œéç‰©ç†åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
         /// <summary>
-        /// ÇøÓòÃû
+        /// åŒºåŸŸå
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Area { get; set; }
         /// <summary>
-        /// ÇøÓò¿ØÖÆÆ÷Ãû
+        /// åŒºåŸŸæ§åˆ¶å™¨å
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Controller { get; set; }
         /// <summary>
-        /// ActionÃû³Æ
+        /// Actionåç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Action { get; set; }
         /// <summary>
-        /// IPµØÖ·
+        /// IPåœ°å€
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string IPAddress { get; set; }
         /// <summary>
-        /// ÃèÊö
+        /// æè¿°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Description { get; set; }
         /// <summary>
-        /// µÇÂ¼Ê±¼ä
+        /// ç™»å½•æ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? LogTime { get; set; }
         /// <summary>
-        /// µÇÂ¼Ãû³Æ
+        /// ç™»å½•åç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string LoginName { get; set; }
         /// <summary>
-        /// ÓÃ»§ID
+        /// ç”¨æˆ·ID
         /// </summary>
         public int UserId { get; set; }
 
         [SugarColumn(IsIgnore = true)]
         public virtual sysUserInfo User { get; set; }
     }
-}	 
+}

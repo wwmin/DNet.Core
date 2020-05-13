@@ -1,11 +1,18 @@
-﻿using DNet.Core.Common;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using DNet.Core.AuthHelper.OverWrite;
+using Microsoft.AspNetCore.Builder;
+using System.IO;
+using DNet.Core.Common.LogHelper;
+using StackExchange.Profiling;
+using System.Text.RegularExpressions;
+using DNet.Core.IServices;
+using Newtonsoft.Json;
+using DNet.Core.Common;
 
 namespace DNet.Core.Middlewares
 {
@@ -27,6 +34,8 @@ namespace DNet.Core.Middlewares
         {
             _next = next;
         }
+
+
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -102,8 +111,8 @@ namespace DNet.Core.Middlewares
             var ResponseBody = new StreamReader(ms).ReadToEnd();
 
             // 去除 Html
-            //var reg = "<[^>]+>";
-            //var isHtml = Regex.IsMatch(ResponseBody, reg);
+            var reg = "<[^>]+>";
+            var isHtml = Regex.IsMatch(ResponseBody, reg);
 
             if (!string.IsNullOrEmpty(ResponseBody))
             {
@@ -116,3 +125,4 @@ namespace DNet.Core.Middlewares
         }
     }
 }
+

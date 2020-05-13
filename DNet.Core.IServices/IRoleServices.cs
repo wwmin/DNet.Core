@@ -1,8 +1,6 @@
-	//----------Role开始----------
-    
-
 using DNet.Core.IServices.BASE;
 using DNet.Core.Model.Models;
+using System.Threading.Tasks;
 
 namespace DNet.Core.IServices
 {	
@@ -11,10 +9,8 @@ namespace DNet.Core.IServices
 	/// </summary>	
     public interface IRoleServices :IBaseServices<Role>
 	{
+        Task<Role> SaveRole(string roleName);
+        Task<string> GetRoleNameByRid(int rid);
 
-       
     }
 }
-
-	//----------Role结束----------
-	

@@ -1,15 +1,13 @@
-﻿using DNet.Core.Tasks.HostedService;
-using DNet.Core.Tasks.QuartzNet;
-using DNet.Core.Tasks.QuartzNet.Jobs;
+﻿using DNet.Core.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz.Spi;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Extensions
 {
+    /// <summary>
+    /// Cors 启动服务
+    /// </summary>
     public static class JobSetup
     {
         public static void AddJobSetup(this IServiceCollection services)

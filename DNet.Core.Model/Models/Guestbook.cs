@@ -1,26 +1,22 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DNet.Core.Model.Models
 {
-    ///<summary>
-    ///Guestbook
-    ///</summary>
     public class Guestbook
     {
 
         /// <summary>
-        /// ÁôÑÔ±í
+        /// ç•™è¨€è¡¨
         /// </summary>
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int id { get; set; }
 
-        /// <summary>²©¿ÍID
+        /// <summary>åšå®¢ID
         /// 
         /// </summary>
         public int? blogId { get; set; }
-        /// <summary>´´½¨Ê±¼ä
+        /// <summary>åˆ›å»ºæ—¶é—´
         /// 
         /// </summary>
         public DateTime createdate { get; set; }
@@ -28,7 +24,7 @@ namespace DNet.Core.Model.Models
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string username { get; set; }
 
-        /// <summary>ÊÖ»ú
+        /// <summary>æ‰‹æœº
         /// 
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
@@ -39,18 +35,18 @@ namespace DNet.Core.Model.Models
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string QQ { get; set; }
 
-        /// <summary>ÁôÑÔÄÚÈİ
+        /// <summary>ç•™è¨€å†…å®¹
         /// 
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string body { get; set; }
-        /// <summary>ipµØÖ·
+        /// <summary>ipåœ°å€
         /// 
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string ip { get; set; }
 
-        /// <summary>ÊÇ·ñÏÔÊ¾ÔÚÇ°Ì¨,0·ñ1ÊÇ
+        /// <summary>æ˜¯å¦æ˜¾ç¤ºåœ¨å‰å°,0å¦1æ˜¯
         /// 
         /// </summary>
         public bool isshow { get; set; }
@@ -58,4 +54,4 @@ namespace DNet.Core.Model.Models
         [SugarColumn(IsIgnore = true)]
         public BlogArticle blogarticle { get; set; }
     }
-}	 
+}

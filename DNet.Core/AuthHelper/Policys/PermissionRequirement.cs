@@ -2,8 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.AuthHelper
 {
@@ -48,6 +46,7 @@ namespace DNet.Core.AuthHelper
         /// 签名验证
         /// </summary>
         public SigningCredentials SigningCredentials { get; set; }
+
 
         /// <summary>
         /// 构造

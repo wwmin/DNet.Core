@@ -1,20 +1,12 @@
-	//----------Guestbook开始----------
-    
-
-using DNet.Core.IServices.BASE;
+﻿using DNet.Core.IServices.BASE;
 using DNet.Core.Model.Models;
+using System.Threading.Tasks;
 
 namespace DNet.Core.IServices
-{	
-	/// <summary>
-	/// GuestbookServices
-	/// </summary>	
-    public interface IGuestbookServices :IBaseServices<Guestbook>
-	{
-
-       
+{
+    public partial interface IGuestbookServices : IBaseServices<Guestbook>
+    {
+        Task<bool> TestTranInRepository();
+        Task<bool> TestTranInRepositoryAOP();
     }
 }
-
-	//----------Guestbook结束----------
-	

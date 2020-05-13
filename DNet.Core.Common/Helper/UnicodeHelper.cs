@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.Helper
 {
     public static class UnicodeHelper
     {

@@ -1,15 +1,11 @@
-	//----------Role开始----------
-    
-
-
-using System;
-using System.Threading.Tasks;
-using DNet.Core.Common;
-using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
 using DNet.Core.IServices;
-using DNet.Core.Model.Models;
+using DNet.Core.IRepository;
 using DNet.Core.Services.BASE;
+using DNet.Core.Model.Models;
+using System.Threading.Tasks;
+using System.Linq;
+using DNet.Core.Common;
+
 namespace DNet.Core.Services
 {	
 	/// <summary>
@@ -18,15 +14,40 @@ namespace DNet.Core.Services
 	public class RoleServices : BaseServices<Role>, IRoleServices
     {
 	
-        IRoleRepository dal;
+        IRoleRepository _dal;
         public RoleServices(IRoleRepository dal)
         {
-            this.dal = dal;
+            this._dal = dal;
             base.BaseDal = dal;
         }
-       
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="roleName"></param>
+       /// <returns></returns>
+        public async Task<Role> SaveRole(string roleName)
+        {
+            Role role = new Role(roleName);
+            Role model = new Role();
+            var userList = await base.Query(a => a.Name == role.Name && a.Enabled);
+            if (userList.Count > 0)
+            {
+                model = userList.FirstOrDefault();
+            }
+            else
+            {
+                var id = await base.Add(role);
+                model = await base.QueryById(id);
+            }
+
+            return model;
+
+        }
+
+        [Caching(AbsoluteExpiration = 30)]
+        public async Task<string> GetRoleNameByRid(int rid)
+        {
+            return ((await base.QueryById(rid))?.Name);
+        }
     }
 }
-
-	//----------Role结束----------
-	

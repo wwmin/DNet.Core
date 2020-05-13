@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-
 namespace DNet.Core
 {
     /// <summary>
-    /// UtilConvert
+    /// 
     /// </summary>
     public static class UtilConvert
     {

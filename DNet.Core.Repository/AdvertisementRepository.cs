@@ -1,21 +1,14 @@
-	//----------Advertisement开始----------
-    
-using DNet.Core.Model.Models;
-using DNet.Core.IRepository;
+﻿using DNet.Core.IRepository;
 using DNet.Core.IRepository.UnitOfWork;
+using DNet.Core.Model.Models;
+using DNet.Core.Repository.Base;
+
 namespace DNet.Core.Repository
-{	
-	/// <summary>
-	/// AdvertisementRepository
-	/// </summary>	
-	public class AdvertisementRepository : BaseRepository<Advertisement>, IAdvertisementRepository
+{
+    public class AdvertisementRepository : BaseRepository<Advertisement>, IAdvertisementRepository
     {
-		public AdvertisementRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public AdvertisementRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-       
     }
 }
-
-	//----------Advertisement结束----------
-	

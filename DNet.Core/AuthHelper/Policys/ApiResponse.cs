@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DNet.Core.AuthHelper
+namespace DNet.Core.AuthHelper.Policys
 {
     public class ApiResponse
     {
         public int Status { get; set; } = 404;
-        public string Value { get; set; } = "Not Found";
+        public string Value { get; set; } = "No Found";
         public MessageModel<string> MessageModel = new MessageModel<string>() { };
 
         public ApiResponse(StatusCode apiCode, string msg = null)
@@ -52,4 +52,5 @@ namespace DNet.Core.AuthHelper
         CODE404,
         CODE500
     }
+
 }

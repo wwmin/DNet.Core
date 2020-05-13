@@ -60,7 +60,7 @@ namespace DNet.Core.Services
         public <#=tableName#>Services(I<#=tableName#>Repository dal)
         {
             this.dal = dal;
-            base.BaseDal = dal;
+            base.baseDal = dal;
         }
        
     }

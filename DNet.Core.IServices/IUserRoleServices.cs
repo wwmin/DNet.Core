@@ -1,8 +1,6 @@
-	//----------UserRole开始----------
-    
-
 using DNet.Core.IServices.BASE;
 using DNet.Core.Model.Models;
+using System.Threading.Tasks;
 
 namespace DNet.Core.IServices
 {	
@@ -12,9 +10,8 @@ namespace DNet.Core.IServices
     public interface IUserRoleServices :IBaseServices<UserRole>
 	{
 
-       
+        Task<UserRole> SaveUserRole(int uid, int rid);
+        Task<int> GetRoleIdByUid(int uid);
     }
 }
 
-	//----------UserRole结束----------
-	

@@ -1,11 +1,14 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ÓÃ»§¸ú½ÇÉ«¹ØÁª±í
+    /// ç”¨æˆ·è·Ÿè§’è‰²å…³è”è¡¨
     /// </summary>
     public class UserRole : RootEntity
     {
@@ -24,48 +27,48 @@ namespace DNet.Core.Model.Models
 
 
         /// <summary>
-        ///»ñÈ¡»òÉèÖÃÊÇ·ñ½ûÓÃ£¬Âß¼­ÉÏµÄÉ¾³ı£¬·ÇÎïÀíÉ¾³ı
+        ///è·å–æˆ–è®¾ç½®æ˜¯å¦ç¦ç”¨ï¼Œé€»è¾‘ä¸Šçš„åˆ é™¤ï¼Œéç‰©ç†åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
         /// <summary>
-        /// ÓÃ»§ID
+        /// ç”¨æˆ·ID
         /// </summary>
         public int UserId { get; set; }
         /// <summary>
-        /// ½ÇÉ«ID
+        /// è§’è‰²ID
         /// </summary>
         public int RoleId { get; set; }
         /// <summary>
-        /// ´´½¨ID
+        /// åˆ›å»ºID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? CreateId { get; set; }
         /// <summary>
-        /// ´´½¨Õß
+        /// åˆ›å»ºè€…
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 50, IsNullable = true)]
         public string CreateBy { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? CreateTime { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄID
+        /// ä¿®æ”¹ID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? ModifyId { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÕß
+        /// ä¿®æ”¹è€…
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 50, IsNullable = true)]
         public string ModifyBy { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÊ±¼ä
+        /// ä¿®æ”¹æ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? ModifyTime { get; set; }
 
     }
-}	 
+}

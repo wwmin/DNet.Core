@@ -1,8 +1,10 @@
 ﻿using DNet.Core.AuthHelper;
 using DNet.Core.Common;
+using DNet.Core.Common.AppConfig;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -17,13 +19,15 @@ using System.Threading.Tasks;
 namespace DNet.Core.Extensions
 {
     /// <summary>
-    /// Jwt 启动服务
+    /// Db 启动服务
     /// </summary>
     public static class AuthorizationSetup
     {
         public static void AddAuthorizationSetup(this IServiceCollection services)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
+
+     
 
             #region 1、基于角色的API授权 
             // 1【授权】、这个很简单，其他什么都不用做， 只需要在API层的controller上边，增加特性即可，注意，只能是角色的:
@@ -68,12 +72,15 @@ namespace DNet.Core.Extensions
                 );
             #endregion
 
+
             // 3、复杂的策略授权
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Permissions.Name,
                          policy => policy.Requirements.Add(permissionRequirement));
             });
+
+
 
             // 令牌验证参数
             var tokenValidationParameters = new TokenValidationParameters
@@ -91,7 +98,7 @@ namespace DNet.Core.Extensions
 
             //2.1【认证】、core自带官方JWT认证
             // 开启Bearer认证
-            services.AddAuthentication(o => {
+            services.AddAuthentication(o=> {
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = nameof(ApiResponseHandler);
                 o.DefaultForbidScheme = nameof(ApiResponseHandler);
@@ -109,7 +116,7 @@ namespace DNet.Core.Extensions
                      },
                      OnAuthenticationFailed = context =>
                      {
-                         var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
+                         var token= context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
                          var jwtToken = (new JwtSecurityTokenHandler()).ReadJwtToken(token);
 
                          if (jwtToken.Issuer != Issuer)
@@ -133,6 +140,7 @@ namespace DNet.Core.Extensions
                  };
              })
              .AddScheme<AuthenticationSchemeOptions, ApiResponseHandler>(nameof(ApiResponseHandler), o => { });
+
 
             // 这里冗余写了一次,因为很多人看不到
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

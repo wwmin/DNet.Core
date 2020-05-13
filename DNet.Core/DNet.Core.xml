@@ -14,16 +14,16 @@
             拦截器BlogLogAOP 继承IInterceptor接口
             </summary>
         </member>
+        <member name="M:DNet.Core.AOP.BlogLogAOP.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            实例化IInterceptor唯一方法 
+            </summary>
+            <param name="invocation">包含被拦截方法的信息</param>
+        </member>
         <member name="T:DNet.Core.AOP.BlogRedisCacheAOP">
             <summary>
             面向切面的缓存使用
             </summary>
-        </member>
-        <member name="M:DNet.Core.AOP.BlogRedisCacheAOP.Intercept(Castle.DynamicProxy.IInvocation)">
-            <summary>
-            Intercept 方式是拦截的关键所在,也是IInterceptor接口中的唯一定义
-            </summary>
-            <param name="invocation"></param>
         </member>
         <member name="T:DNet.Core.AOP.BlogTranAOP">
             <summary>
@@ -36,11 +36,23 @@
             </summary>
             <param name="invocation">包含被拦截方法的信息</param>
         </member>
+        <member name="T:DNet.Core.AOP.BlogUserAuditAOP">
+            <summary>
+            面向切面的缓存使用
+            </summary>
+        </member>
         <member name="M:DNet.Core.AOP.CacheAOPbase.Intercept(Castle.DynamicProxy.IInvocation)">
             <summary>
             AOP的拦截方法
             </summary>
             <param name="invocation"></param>
+        </member>
+        <member name="M:DNet.Core.AOP.CacheAOPbase.CustomCacheKey(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            自定义缓存的key
+            </summary>
+            <param name="invocation"></param>
+            <returns></returns>
         </member>
         <member name="M:DNet.Core.AOP.CacheAOPbase.GetArgumentValue(System.Object)">
             <summary>
@@ -49,36 +61,36 @@
             <param name="arg"></param>
             <returns></returns>
         </member>
-        <member name="M:DNet.Core.AuthHelper.JwtHelper.IssueJwt(DNet.Core.AuthHelper.TokenModelJwt)">
+        <member name="M:DNet.Core.AuthHelper.OverWrite.JwtHelper.IssueJwt(DNet.Core.AuthHelper.OverWrite.TokenModelJwt)">
             <summary>
             颁发JWT字符串
             </summary>
             <param name="tokenModel"></param>
             <returns></returns>
         </member>
-        <member name="M:DNet.Core.AuthHelper.JwtHelper.SerializeJwt(System.String)">
+        <member name="M:DNet.Core.AuthHelper.OverWrite.JwtHelper.SerializeJwt(System.String)">
             <summary>
             解析
             </summary>
             <param name="jwtStr"></param>
             <returns></returns>
         </member>
-        <member name="T:DNet.Core.AuthHelper.TokenModelJwt">
+        <member name="T:DNet.Core.AuthHelper.OverWrite.TokenModelJwt">
             <summary>
             令牌
             </summary>
         </member>
-        <member name="P:DNet.Core.AuthHelper.TokenModelJwt.Uid">
+        <member name="P:DNet.Core.AuthHelper.OverWrite.TokenModelJwt.Uid">
             <summary>
             Id
             </summary>
         </member>
-        <member name="P:DNet.Core.AuthHelper.TokenModelJwt.Role">
+        <member name="P:DNet.Core.AuthHelper.OverWrite.TokenModelJwt.Role">
             <summary>
             角色
             </summary>
         </member>
-        <member name="P:DNet.Core.AuthHelper.TokenModelJwt.Work">
+        <member name="P:DNet.Core.AuthHelper.OverWrite.TokenModelJwt.Work">
             <summary>
             职能
             </summary>
@@ -87,7 +99,7 @@
             <summary>
             中间件
             原做为自定义授权中间件
-            现做检查 header token的使用
+            先做检查 header token的使用
             </summary>
         </member>
         <member name="F:DNet.Core.AuthHelper.JwtTokenAuth._next">
@@ -106,6 +118,19 @@
             
             </summary>
             <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:DNet.Core.AuthHelper.JwtToken">
+            <summary>
+            JWTToken生成类
+            </summary>
+        </member>
+        <member name="M:DNet.Core.AuthHelper.JwtToken.BuildJwtToken(System.Security.Claims.Claim[],DNet.Core.AuthHelper.PermissionRequirement)">
+            <summary>
+            获取基于JWT的Token
+            </summary>
+            <param name="claims">需要在登陆的时候配置</param>
+            <param name="permissionRequirement">在startup中定义的参数</param>
             <returns></returns>
         </member>
         <member name="T:DNet.Core.AuthHelper.PermissionHandler">
@@ -129,6 +154,7 @@
         <member name="T:DNet.Core.AuthHelper.PermissionItem">
             <summary>
             用户或角色或其他凭据实体,就像是订单详情一样
+            之前的名字是 Permission
             </summary>
         </member>
         <member name="P:DNet.Core.AuthHelper.PermissionItem.Role">
@@ -203,39 +229,17 @@
         </member>
         <member name="T:DNet.Core.AutoMapper.AutoMapperConfig">
             <summary>
-            静态全局AutoMapper配置文件
+            静态全局 AutoMapper 配置文件
             </summary>
         </member>
         <member name="M:DNet.Core.AutoMapper.CustomProfile.#ctor">
             <summary>
-            配置构造函数,用来创建关系映射
+            配置构造函数，用来创建关系映射
             </summary>
-        </member>
-        <member name="T:DNet.Core.Controllers.BlogController">
-            <summary>
-            博客管理
-            </summary>
-        </member>
-        <member name="M:DNet.Core.Controllers.BlogController.#ctor(DNet.Core.IServices.IBlogArticleServices,Microsoft.Extensions.Logging.ILogger{DNet.Core.Controllers.BlogController})">
-            <summary>
-            构造函数
-            </summary>
-            <param name="blogArticleServices"></param>
-            <param name="logger"></param>
-        </member>
-        <member name="M:DNet.Core.Controllers.BlogController.Get(System.Int32,System.Int32,System.String,System.String)">
-            <summary>
-            获取博客列表【无权限】
-            </summary>
-            <param name="id"></param>
-            <param name="page"></param>
-            <param name="bcategory"></param>
-            <param name="key"></param>
-            <returns></returns>
         </member>
         <member name="T:DNet.Core.Controllers.LoginController">
             <summary>
-            登录相关
+            登录管理
             </summary>
         </member>
         <member name="M:DNet.Core.Controllers.LoginController.#ctor(DNet.Core.IServices.ISysUserInfoServices,DNet.Core.IServices.IUserRoleServices,DNet.Core.IServices.IRoleServices,DNet.Core.AuthHelper.PermissionRequirement,DNet.Core.IServices.IRoleModulePermissionServices)">
@@ -248,28 +252,21 @@
             <param name="requirement"></param>
             <param name="roleModulePermissionServices"></param>
         </member>
-        <member name="M:DNet.Core.Controllers.LoginController.GetJwtStr(System.String,System.String)">
+        <member name="M:DNet.Core.Controllers.LoginController.Md5Password(System.String)">
             <summary>
-            获取token
+            测试 MD5 加密字符串
             </summary>
-            <param name="name"></param>
             <param name="password"></param>
             <returns></returns>
         </member>
         <member name="T:DNet.Core.Extensions.AppConfigSetup">
             <summary>
-            AppConfig提示
+            Cors 启动服务
             </summary>
-        </member>
-        <member name="M:DNet.Core.Extensions.AppConfigSetup.AddAppConfigSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            AppConfig提示
-            </summary>
-            <param name="services"></param>
         </member>
         <member name="T:DNet.Core.Extensions.AuthorizationSetup">
             <summary>
-            Jwt 启动服务
+            Db 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.Authorization_Ids4Setup">
@@ -279,7 +276,7 @@
         </member>
         <member name="T:DNet.Core.Extensions.AutoMapperSetup">
             <summary>
-            Automapper启动服务
+            Automapper 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.ControllerSetup">
@@ -295,7 +292,7 @@
         </member>
         <member name="T:DNet.Core.Extensions.CorsSetup">
             <summary>
-            Cors启动服务
+            Cors 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.DbSetup">
@@ -305,56 +302,54 @@
         </member>
         <member name="T:DNet.Core.Extensions.HttpContextSetup">
             <summary>
-            HttpContext
+            Db 启动服务
             </summary>
-        </member>
-        <member name="M:DNet.Core.Extensions.HttpContextSetup.AddHttpContextSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            HttpContext服务
-            </summary>
-            <param name="services"></param>
         </member>
         <member name="T:DNet.Core.Extensions.IpPolicyRateLimitSetup">
             <summary>
-            启动限流服务
+            Cors 启动服务
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Extensions.JobSetup">
+            <summary>
+            Cors 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.MemoryCacheSetup">
             <summary>
-            内存缓存
+            Cors 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.MiniProfilerSetup">
             <summary>
-            MiniProfiler启动服务
+            MiniProfiler 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.SqlsugarSetup">
             <summary>
-            SqlSugar启动服务
+            SqlSugar 启动服务
             </summary>
         </member>
         <member name="T:DNet.Core.Extensions.SwaggerSetup">
             <summary>
-            Swagger启动服务
+            Swagger 启动服务
             </summary>
-        </member>
-        <member name="M:DNet.Core.Extensions.SwaggerSetup.AddSwaggerSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            添加Swagger
-            </summary>
-            <param name="services"></param>
         </member>
         <member name="T:DNet.Core.Extensions.WebApiClientSetup">
             <summary>
             WebApiClientSetup 启动服务
             </summary>
         </member>
-        <member name="M:DNet.Core.Extensions.WebApiClientSetup.AddHttpApiSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:DNet.Core.Extensions.WebApiClientSetup.AddHttpApi(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             注册WebApiClient接口
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="T:DNet.Core.Extensions.AllServicesMidd">
+            <summary>
+            Cors 启动服务
+            </summary>
         </member>
         <member name="T:DNet.Core.Filter.GlobalRouteAuthorizeConvention">
             <summary>
@@ -364,7 +359,17 @@
             否则，如果想特例其他授权机制的话，需要在 controller 上带上  [Authorize]，然后再action上自定义授权即可，比如 [Authorize(Roles = "Admin")]
             </summary>
         </member>
-        <member name="M:DNet.Core.Filter.GlobalExceptionFilter.WriteLog(System.String,System.Exception)">
+        <member name="T:DNet.Core.Filter.GlobalAuthorizeFilter">
+            <summary>
+            全局权限过滤器【无效】
+            </summary>
+        </member>
+        <member name="T:DNet.Core.Filter.GlobalExceptionsFilter">
+            <summary>
+            全局异常错误日志
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Filter.GlobalExceptionsFilter.WriteLog(System.String,System.Exception)">
             <summary>
             自定义返回格式
             </summary>
@@ -384,17 +389,7 @@
         </member>
         <member name="T:DNet.Core.Filter.GlobalRoutePrefixFilter">
             <summary>
-             全局路由前缀公约
-            </summary>
-        </member>
-        <member name="T:DNet.Core.Middlewares.AllServicesMidd">
-            <summary>
-            查看所有已注册的服务
-            </summary>
-        </member>
-        <member name="T:DNet.Core.Middlewares.ExceptionHandlerMidd">
-            <summary>
-            异常处理中间件
+            全局路由前缀公约
             </summary>
         </member>
         <member name="T:DNet.Core.Middlewares.IPLogMidd">
@@ -414,14 +409,14 @@
             </summary>
             <param name="next"></param>
         </member>
-        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseJwtTokenAuthMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseJwtTokenAuth(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             自定义授权中间件
             </summary>
             <param name="app"></param>
             <returns></returns>
         </member>
-        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseRequestResponseLogMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+        <member name="M:DNet.Core.Middlewares.MiddlewareHelpers.UseReuestResponseLogMidd(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             请求响应中间件
             </summary>
@@ -477,7 +472,7 @@
             
             </summary>
         </member>
-        <member name="M:DNet.Core.Middlewares.SignalRSendMidd.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.AspNetCore.SignalR.IHubContext{DNet.Core.Common.ChatHub})">
+        <member name="M:DNet.Core.Middlewares.SignalRSendMidd.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.AspNetCore.SignalR.IHubContext{DNet.Core.Hubs.ChatHub})">
             <summary>
             
             </summary>
@@ -486,23 +481,51 @@
         </member>
         <member name="P:DNet.Core.Startup.Repository">
             <summary>
-            log4net仓储库
+            log4net 仓储库
             </summary>
         </member>
         <member name="T:DNet.Core.SwaggerHelper.CustomApiVersion">
             <summary>
-            自定义Api版本
+            自定义版本
             </summary>
         </member>
-        <member name="F:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersion.V1">
+        <member name="T:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersions">
             <summary>
-            V1版本
+            Api接口版本 自定义
             </summary>
         </member>
-        <member name="F:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersion.V2">
+        <member name="F:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersions.V1">
             <summary>
-            V2版本
+            V1 版本
             </summary>
+        </member>
+        <member name="F:DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersions.V2">
+            <summary>
+            V2 版本
+            </summary>
+        </member>
+        <member name="T:DNet.Core.SwaggerHelper.CustomRouteAttribute">
+            <summary>
+            自定义路由 /api/{version}/[controler]/[action]
+            </summary>
+        </member>
+        <member name="P:DNet.Core.SwaggerHelper.CustomRouteAttribute.GroupName">
+            <summary>
+            分组名称,是来实现接口 IApiDescriptionGroupNameProvider
+            </summary>
+        </member>
+        <member name="M:DNet.Core.SwaggerHelper.CustomRouteAttribute.#ctor(System.String)">
+            <summary>
+            自定义路由构造函数，继承基类路由
+            </summary>
+            <param name="actionName"></param>
+        </member>
+        <member name="M:DNet.Core.SwaggerHelper.CustomRouteAttribute.#ctor(DNet.Core.SwaggerHelper.CustomApiVersion.ApiVersions,System.String)">
+            <summary>
+            自定义版本+路由构造函数，继承基类路由
+            </summary>
+            <param name="actionName"></param>
+            <param name="version"></param>
         </member>
     </members>
 </doc>

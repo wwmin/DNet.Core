@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,12 +23,34 @@ namespace DNet.Core.Filter
                     // 没有写特性，就用全局的 Permission 授权
                     c.Filters.Add(new AuthorizeFilter(Permissions.Name));
                 }
-                else
-                {
+                else {
                     // 写了特性，[Authorize] 或 [AllowAnonymous] ，根据情况进行权限认证
                 }
 
             }
         }
     }
+
+    /// <summary>
+    /// 全局权限过滤器【无效】
+    /// </summary>
+    public class GlobalAuthorizeFilter : AuthorizeFilter
+    {
+
+        public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
+        {
+            if (context.Filters.Any(item => item is IAsyncAuthorizationFilter && item != this))
+            {
+                return Task.FromResult(0);
+            }
+
+
+            return base.OnAuthorizationAsync(context);
+
+          
+        }
+    }
+
+
+
 }

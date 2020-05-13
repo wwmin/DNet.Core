@@ -1,11 +1,14 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ½Ó¿ÚAPIµØÖ·ĞÅÏ¢±í
+    /// æ¥å£APIåœ°å€ä¿¡æ¯è¡¨
     /// </summary>
     public class Module : RootEntity
     {
@@ -18,94 +21,94 @@ namespace DNet.Core.Model.Models
 
 
         /// <summary>
-        ///»ñÈ¡»òÉèÖÃÊÇ·ñ½ûÓÃ£¬Âß¼­ÉÏµÄÉ¾³ı£¬·ÇÎïÀíÉ¾³ı
+        ///è·å–æˆ–è®¾ç½®æ˜¯å¦ç¦ç”¨ï¼Œé€»è¾‘ä¸Šçš„åˆ é™¤ï¼Œéç‰©ç†åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
         /// <summary>
-        /// ¸¸ID
+        /// çˆ¶ID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? ParentId { get; set; }
         /// <summary>
-        /// Ãû³Æ
+        /// åç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string Name { get; set; }
         /// <summary>
-        /// ²Ëµ¥Á´½ÓµØÖ·
+        /// èœå•é“¾æ¥åœ°å€
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string LinkUrl { get; set; }
         /// <summary>
-        /// ÇøÓòÃû³Æ
+        /// åŒºåŸŸåç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Area { get; set; }
         /// <summary>
-        /// ¿ØÖÆÆ÷Ãû³Æ
+        /// æ§åˆ¶å™¨åç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Controller { get; set; }
         /// <summary>
-        /// ActionÃû³Æ
+        /// Actionåç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string Action { get; set; }
         /// <summary>
-        /// Í¼±ê
+        /// å›¾æ ‡
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string Icon { get; set; }
         /// <summary>
-        /// ²Ëµ¥±àºÅ
+        /// èœå•ç¼–å·
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 10, IsNullable = true)]
         public string Code { get; set; }
         /// <summary>
-        /// ÅÅĞò
+        /// æ’åº
         /// </summary>
         public int OrderSort { get; set; }
         /// <summary>
-        /// /ÃèÊö
+        /// /æè¿°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string Description { get; set; }
         /// <summary>
-        /// ÊÇ·ñÊÇÓÒ²à²Ëµ¥
+        /// æ˜¯å¦æ˜¯å³ä¾§èœå•
         /// </summary>
         public bool IsMenu { get; set; }
         /// <summary>
-        /// ÊÇ·ñ¼¤»î
+        /// æ˜¯å¦æ¿€æ´»
         /// </summary>
         public bool Enabled { get; set; }
         /// <summary>
-        /// ´´½¨ID
+        /// åˆ›å»ºID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? CreateId { get; set; }
         /// <summary>
-        /// ´´½¨Õß
+        /// åˆ›å»ºè€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string CreateBy { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime CreateTime { get; set; } = DateTime.Now;
         /// <summary>
-        /// ĞŞ¸ÄID
+        /// ä¿®æ”¹ID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? ModifyId { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÕß
+        /// ä¿®æ”¹è€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string ModifyBy { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÊ±¼ä
+        /// ä¿®æ”¹æ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? ModifyTime { get; set; } = DateTime.Now;
@@ -115,4 +118,4 @@ namespace DNet.Core.Model.Models
         //public virtual ICollection<ModulePermission> ModulePermission { get; set; }
         //public virtual ICollection<RoleModulePermission> RoleModulePermission { get; set; }
     }
-}	 
+}

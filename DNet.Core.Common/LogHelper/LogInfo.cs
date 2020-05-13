@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.LogHelper
 {
     public class LogInfo
     {

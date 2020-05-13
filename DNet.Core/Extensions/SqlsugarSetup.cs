@@ -1,16 +1,17 @@
 ﻿using DNet.Core.Common;
+using DNet.Core.Common.DB;
+using DNet.Core.Common.LogHelper;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DNet.Core.Extensions
 {
     /// <summary>
-    /// SqlSugar启动服务
+    /// SqlSugar 启动服务
     /// </summary>
     public static class SqlsugarSetup
     {
@@ -18,15 +19,15 @@ namespace DNet.Core.Extensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            //默认添加主数据库连接
+            // 默认添加主数据库连接
             MainDb.CurrentDbConnId = Appsettings.app(new string[] { "MainDB" });
 
-            // 把多个连接对象注入服务,这里必须采用scope,因为有事务操作
+            // 把多个连接对象注入服务，这里必须采用Scope，因为有事务操作
             services.AddScoped<ISqlSugarClient>(o =>
             {
-                //连接字符串
+                // 连接字符串
                 var listConfig = new List<ConnectionConfig>();
-                //从库
+                // 从库
                 var listConfig_Slave = new List<SlaveConnectionConfig>();
                 BaseDBConfig.MutiConnectionString.Item2.ForEach(s =>
                 {
@@ -54,8 +55,9 @@ namespace DNet.Core.Extensions
                                 {
                                     Parallel.For(0, 1, e =>
                                     {
-                                        MiniProfiler.Current.CustomTiming("SQL: ", GetParas(p) + "[SQL语句]: " + sql);
-                                        LogLock.OutSql2Log("SqlLog", new string[] { GetParas(p), "[SQL语句]: " + sql });
+                                        MiniProfiler.Current.CustomTiming("SQL：", GetParas(p) + "【SQL语句】：" + sql);
+                                        LogLock.OutSql2Log("SqlLog", new string[] { GetParas(p), "【SQL语句】：" + sql });
+
                                     });
                                 }
                             }
@@ -64,10 +66,11 @@ namespace DNet.Core.Extensions
                         {
                             IsAutoRemoveDataCache = true
                         },
-                        //从库
+                        // 从库
                         SlaveConnectionConfigs = listConfig_Slave,
                         //InitKeyType = InitKeyType.SystemTable
-                    });
+                    }
+                   );
                 });
                 return new SqlSugarClient(listConfig);
             });
@@ -75,11 +78,12 @@ namespace DNet.Core.Extensions
 
         private static string GetParas(SugarParameter[] pars)
         {
-            string key = "[SQL参数]: ";
+            string key = "【SQL参数】：";
             foreach (var param in pars)
             {
                 key += $"{param.ParameterName}:{param.Value}\n";
             }
+
             return key;
         }
     }

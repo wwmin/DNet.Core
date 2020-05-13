@@ -1,4 +1,5 @@
 ﻿using DNet.Core.IServices;
+using Castle.Core.Logging;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace DNet.Core.Filter
 {
-    public class UseServiceDIAttribute: ActionFilterAttribute
+    public class UseServiceDIAttribute : ActionFilterAttribute
     {
+
         protected readonly ILogger<UseServiceDIAttribute> _logger;
         private readonly IBlogArticleServices _blogArticleServices;
         private readonly string _name;
 
-        public UseServiceDIAttribute(ILogger<UseServiceDIAttribute> logger, IBlogArticleServices blogArticleServices, string Name = "")
+        public UseServiceDIAttribute(ILogger<UseServiceDIAttribute> logger, IBlogArticleServices blogArticleServices,string Name="")
         {
             _logger = logger;
             _blogArticleServices = blogArticleServices;

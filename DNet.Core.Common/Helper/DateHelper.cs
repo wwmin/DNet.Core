@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DNet.Core
+namespace DNet.Core.Common.Helper
 {
-    public static class DateHelper
+    public class DateHelper
     {
         public static DateTime StampToDateTime(string time)
         {

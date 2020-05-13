@@ -1,14 +1,11 @@
 ﻿using DNet.Core.Model;
 using DNet.Core.Model.Models;
 using DNet.Core.Model.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using WebApiClient;
 using WebApiClient.Attributes;
 
-namespace DNet.Core.IServices.WebApiClients.HttpApis
+namespace DNet.Core.Common.WebApiClients.HttpApis
 {
     /// <summary>
     /// 博客管理

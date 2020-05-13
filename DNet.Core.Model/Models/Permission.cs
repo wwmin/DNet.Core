@@ -1,12 +1,14 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// Â·ÓÉ²Ëµ¥±í
+    /// è·¯ç”±èœå•è¡¨
     /// </summary>
     public class Permission : RootEntity
     {
@@ -17,33 +19,33 @@ namespace DNet.Core.Model.Models
         }
 
         /// <summary>
-        /// ²Ëµ¥Ö´ĞĞActionÃû
+        /// èœå•æ‰§è¡ŒActionå
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string Code { get; set; }
         /// <summary>
-        /// ²Ëµ¥ÏÔÊ¾Ãû£¨ÈçÓÃ»§Ò³¡¢±à¼­(°´Å¥)¡¢É¾³ı(°´Å¥)£©
+        /// èœå•æ˜¾ç¤ºåï¼ˆå¦‚ç”¨æˆ·é¡µã€ç¼–è¾‘(æŒ‰é’®)ã€åˆ é™¤(æŒ‰é’®)ï¼‰
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string Name { get; set; }
         /// <summary>
-        /// ÊÇ·ñÊÇ°´Å¥
+        /// æ˜¯å¦æ˜¯æŒ‰é’®
         /// </summary>
         public bool IsButton { get; set; } = false;
         /// <summary>
-        /// ÊÇ·ñÊÇÒş²Ø²Ëµ¥
+        /// æ˜¯å¦æ˜¯éšè—èœå•
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsHide { get; set; } = false;
         /// <summary>
-        /// ÊÇ·ñkeepAlive
+        /// æ˜¯å¦keepAlive
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IskeepAlive { get; set; } = false;
 
 
         /// <summary>
-        /// °´Å¥ÊÂ¼ş
+        /// æŒ‰é’®äº‹ä»¶
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string Func { get; set; }
@@ -51,67 +53,67 @@ namespace DNet.Core.Model.Models
 
 
         /// <summary>
-        /// ÉÏÒ»¼¶²Ëµ¥£¨0±íÊ¾ÉÏÒ»¼¶ÎŞ²Ëµ¥£©
+        /// ä¸Šä¸€çº§èœå•ï¼ˆ0è¡¨ç¤ºä¸Šä¸€çº§æ— èœå•ï¼‰
         /// </summary>
         public int Pid { get; set; }
 
 
         /// <summary>
-        /// ½Ó¿Úapi
+        /// æ¥å£api
         /// </summary>
         public int Mid { get; set; }
 
         /// <summary>
-        /// ÅÅĞò
+        /// æ’åº
         /// </summary>
         public int OrderSort { get; set; }
         /// <summary>
-        /// ²Ëµ¥Í¼±ê
+        /// èœå•å›¾æ ‡
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string Icon { get; set; }
         /// <summary>
-        /// ²Ëµ¥ÃèÊö    
+        /// èœå•æè¿°    
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
         public string Description { get; set; }
         /// <summary>
-        /// ¼¤»î×´Ì¬
+        /// æ¿€æ´»çŠ¶æ€
         /// </summary>
         public bool Enabled { get; set; }
         /// <summary>
-        /// ´´½¨ID
+        /// åˆ›å»ºID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? CreateId { get; set; }
         /// <summary>
-        /// ´´½¨Õß
+        /// åˆ›å»ºè€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string CreateBy { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? CreateTime { get; set; } = DateTime.Now;
         /// <summary>
-        /// ĞŞ¸ÄID
+        /// ä¿®æ”¹ID
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public int? ModifyId { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÕß
+        /// ä¿®æ”¹è€…
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
         public string ModifyBy { get; set; }
         /// <summary>
-        /// ĞŞ¸ÄÊ±¼ä
+        /// ä¿®æ”¹æ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime? ModifyTime { get; set; } = DateTime.Now;
 
         /// <summary>
-        ///»ñÈ¡»òÉèÖÃÊÇ·ñ½ûÓÃ£¬Âß¼­ÉÏµÄÉ¾³ı£¬·ÇÎïÀíÉ¾³ı
+        ///è·å–æˆ–è®¾ç½®æ˜¯å¦ç¦ç”¨ï¼Œé€»è¾‘ä¸Šçš„åˆ é™¤ï¼Œéç‰©ç†åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
@@ -134,4 +136,4 @@ namespace DNet.Core.Model.Models
         //public virtual ICollection<ModulePermission> ModulePermission { get; set; }
         //public virtual ICollection<RoleModulePermission> RoleModulePermission { get; set; }
     }
-}	 
+}

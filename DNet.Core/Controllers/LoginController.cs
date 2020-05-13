@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DNet.Core.AuthHelper;
+using DNet.Core.AuthHelper.OverWrite;
 using DNet.Core.Common;
+using DNet.Core.Common.Helper;
 using DNet.Core.IServices;
 using DNet.Core.Model;
+using DNet.Core.Model.ViewModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Quartz.Impl.Triggers;
 
 namespace DNet.Core.Controllers
 {
     /// <summary>
-    /// 登录相关
+    /// 登录管理
     /// </summary>
-    [Route("api/[controller]")]
-    [ApiController]
-    [Produces("application/json")]
+    [Route("api/Login")]
     [AllowAnonymous]
     public class LoginController : ControllerBase
     {
@@ -27,6 +30,7 @@ namespace DNet.Core.Controllers
         readonly IRoleServices _roleServices;
         readonly PermissionRequirement _requirement;
         private readonly IRoleModulePermissionServices _roleModulePermissionServices;
+
 
         /// <summary>
         /// 构造函数注入
@@ -44,28 +48,20 @@ namespace DNet.Core.Controllers
             _requirement = requirement;
             _roleModulePermissionServices = roleModulePermissionServices;
         }
+
+
+      
+
         /// <summary>
-        /// 获取token
+        /// 测试 MD5 加密字符串
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="password"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("token")]
-        [Caching]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetJwtStr(string name, string password)
+        [Route("Md5Password")]
+        public string Md5Password(string password = "")
         {
-            var user = await _sysUserInfoServices.GetUserRoleNameStr(name, MD5Helper.MD5Encrypt32(password));
-            if (user != null)
-            {
-                TokenModelJwt tokenModel = new TokenModelJwt { Uid = 1, Role = user };
-                return Ok(JwtHelper.IssueJwt(tokenModel));
-            }
-            else
-            {
-                return BadRequest("login fail");
-            }
+            return MD5Helper.MD5Encrypt32(password);
         }
     }
 }

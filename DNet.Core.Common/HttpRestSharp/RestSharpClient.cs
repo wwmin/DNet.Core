@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.HttpRestSharp
 {
     /// <summary>
     /// Rest接口执行者

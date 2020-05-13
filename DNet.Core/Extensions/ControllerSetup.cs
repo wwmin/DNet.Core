@@ -21,7 +21,7 @@ namespace DNet.Core.Extensions
             services.AddControllers(o =>
             {
                 //全局异常过滤
-                o.Filters.Add(typeof(GlobalExceptionFilter));
+                o.Filters.Add(typeof(GlobalExceptionsFilter));
                 // 全局路由权限公约
                 //o.Conventions.Insert(0, new GlobalRouteAuthorizeConvention());
                 // 全局路由前缀，统一修改路由

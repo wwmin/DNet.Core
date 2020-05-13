@@ -1,28 +1,22 @@
 ﻿using DNet.Core.Common;
+using DNet.Core.Common.Helper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Extensions
 {
     /// <summary>
-    /// AppConfig提示
+    /// Cors 启动服务
     /// </summary>
     public static class AppConfigSetup
     {
-        /// <summary>
-        /// AppConfig提示
-        /// </summary>
-        /// <param name="services"></param>
         public static void AddAppConfigSetup(this IServiceCollection services)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
             if (Appsettings.app(new string[] { "Startup", "AppConfigAlert", "Enabled" }).ObjToBool())
             {
-                Console.WriteLine("************ Blog.Core Config Set *****************");
+                Console.WriteLine("************ DNet.Core Config Set *****************");
                 // 授权策略方案
                 if (Permissions.IsUseIds4)
                 {
@@ -105,6 +99,7 @@ namespace DNet.Core.Extensions
 
                 Console.WriteLine();
             }
+
         }
     }
 }

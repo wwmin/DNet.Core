@@ -1,5 +1,6 @@
 ﻿using DNet.Core.Common;
-using DNet.Core.Model.Models;
+using DNet.Core.Common.DB;
+using DNet.Core.Common.Helper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,11 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DNet.Core.Model
+namespace DNet.Core.Model.Models
 {
-    /// <summary>
-    /// DBSeed
-    /// </summary>
     public class DBSeed
     {
         // 这是我的在线demo数据，比较多，且杂乱

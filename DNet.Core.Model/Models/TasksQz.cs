@@ -1,69 +1,68 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ÈÎÎñ¼Æ»®±í
+    /// ä»»åŠ¡è®¡åˆ’è¡¨
     /// </summary>
     public class TasksQz : RootEntity
     {
         /// <summary>
-        /// ÈÎÎñÃû³Æ
+        /// ä»»åŠ¡åç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string Name { get; set; }
         /// <summary>
-        /// ÈÎÎñ·Ö×é
+        /// ä»»åŠ¡åˆ†ç»„
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string JobGroup { get; set; }
         /// <summary>
-        /// ÈÎÎñÔËĞĞÊ±¼ä±í´ïÊ½
+        /// ä»»åŠ¡è¿è¡Œæ—¶é—´è¡¨è¾¾å¼
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string Cron { get; set; }
         /// <summary>
-        /// ÈÎÎñËùÔÚDLL¶ÔÓ¦µÄ³ÌĞò¼¯Ãû³Æ
+        /// ä»»åŠ¡æ‰€åœ¨DLLå¯¹åº”çš„ç¨‹åºé›†åç§°
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string AssemblyName { get; set; }
         /// <summary>
-        /// ÈÎÎñËùÔÚÀà
+        /// ä»»åŠ¡æ‰€åœ¨ç±»
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
         public string ClassName { get; set; }
         /// <summary>
-        /// ÈÎÎñÃèÊö
+        /// ä»»åŠ¡æè¿°
         /// </summary>
         public string Remark { get; set; }
         /// <summary>
-        /// Ö´ĞĞ´ÎÊı
+        /// æ‰§è¡Œæ¬¡æ•°
         /// </summary>
         public int RunTimes { get; set; }
         /// <summary>
-        /// ¿ªÊ¼Ê±¼ä
+        /// å¼€å§‹æ—¶é—´
         /// </summary>
         public DateTime? BeginTime { get; set; }
         /// <summary>
-        /// ½áÊøÊ±¼ä
+        /// ç»“æŸæ—¶é—´
         /// </summary>
         public DateTime? EndTime { get; set; }
         /// <summary>
-        /// ´¥·¢Æ÷ÀàĞÍ£¨0¡¢simple 1¡¢cron£©
+        /// è§¦å‘å™¨ç±»å‹ï¼ˆ0ã€simple 1ã€cronï¼‰
         /// </summary>
         public int TriggerType { get; set; }
         /// <summary>
-        /// Ö´ĞĞ¼ä¸ôÊ±¼ä, ÃëÎªµ¥Î»
+        /// æ‰§è¡Œé—´éš”æ—¶é—´, ç§’ä¸ºå•ä½
         /// </summary>
         public int IntervalSecond { get; set; }
         /// <summary>
-        /// ÊÇ·ñÆô¶¯
+        /// æ˜¯å¦å¯åŠ¨
         /// </summary>
         public bool IsStart { get; set; } = false;
         /// <summary>
-        /// Ö´ĞĞ´«²Î
+        /// æ‰§è¡Œä¼ å‚
         /// </summary>
         public string JobParams { get; set; }
 
@@ -71,9 +70,9 @@ namespace DNet.Core.Model.Models
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public DateTime CreateTime { get; set; } = DateTime.Now;
     }
-}	 
+}

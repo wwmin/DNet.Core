@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace DNet.Core.AOP
 {
@@ -15,17 +14,23 @@ namespace DNet.Core.AOP
         /// <param name="invocation"></param>
         public abstract void Intercept(IInvocation invocation);
 
+        /// <summary>
+        /// 自定义缓存的key
+        /// </summary>
+        /// <param name="invocation"></param>
+        /// <returns></returns>
         protected string CustomCacheKey(IInvocation invocation)
         {
             var typeName = invocation.TargetType.Name;
             var methodName = invocation.Method.Name;
-            var methodArguments = invocation.Arguments.Select(GetArgumentValue).Take(3).ToList();
+            var methodArguments = invocation.Arguments.Select(GetArgumentValue).Take(3).ToList();//获取参数列表，最多三个
 
-            string key = $"{typeName}:{methodName}";
+            string key = $"{typeName}:{methodName}:";
             foreach (var param in methodArguments)
             {
                 key = $"{key}{param}:";
             }
+
             return key.TrimEnd(':');
         }
 
@@ -48,11 +53,11 @@ namespace DNet.Core.AOP
                 {
                     var obj = arg as Expression;
                     var result = Resolve(obj);
-                    return Common.MD5Helper.MD5Encrypt16(result);
+                    return Common.Helper.MD5Helper.MD5Encrypt16(result);
                 }
                 else if (arg.GetType().IsClass)
                 {
-                    return Common.MD5Helper.MD5Encrypt16(Newtonsoft.Json.JsonConvert.SerializeObject(arg));
+                    return Common.Helper.MD5Helper.MD5Encrypt16(Newtonsoft.Json.JsonConvert.SerializeObject(arg));
                 }
             }
             return string.Empty;
@@ -214,5 +219,6 @@ namespace DNet.Core.AOP
             string Result = string.Format("len({0}){1}{2}", Name, Operator, value.ToString());
             return Result;
         }
+
     }
 }

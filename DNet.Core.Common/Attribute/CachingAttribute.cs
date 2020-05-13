@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace DNet.Core.Common
 {
     /// <summary>
@@ -11,5 +12,6 @@ namespace DNet.Core.Common
         /// 缓存绝对过期时间（分钟）
         /// </summary>
         public int AbsoluteExpiration { get; set; } = 30;
+
     }
 }

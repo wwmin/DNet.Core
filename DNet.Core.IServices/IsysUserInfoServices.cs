@@ -1,4 +1,3 @@
-	//----------sysUserInfo开始----------
     
 
 using DNet.Core.IServices.BASE;
@@ -12,11 +11,7 @@ namespace DNet.Core.IServices
 	/// </summary>	
     public interface ISysUserInfoServices :IBaseServices<sysUserInfo>
 	{
-
-		Task<sysUserInfo> SaveUserInfo(string loginName, string loginPwd);
-		Task<string> GetUserRoleNameStr(string loginName, string loginPwd);
-	}
+        Task<sysUserInfo> SaveUserInfo(string loginName, string loginPwd);
+        Task<string> GetUserRoleNameStr(string loginName, string loginPwd);
+    }
 }
-
-	//----------sysUserInfo结束----------
-	

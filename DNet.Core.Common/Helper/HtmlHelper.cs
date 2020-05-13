@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.Helper
 {
-    public class HtmlHelper
+    public static class HtmlHelper
     {
         #region 去除富文本中的HTML标签
         /// <summary>

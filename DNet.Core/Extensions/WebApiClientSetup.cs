@@ -1,10 +1,7 @@
-﻿using DNet.Core.IServices.WebApiClients.HttpApis;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DNet.Core.Common.WebApiClients.HttpApis;
 using WebApiClient.Extensions.DependencyInjection;
+using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DNet.Core.Extensions
 {
@@ -17,11 +14,11 @@ namespace DNet.Core.Extensions
         /// 注册WebApiClient接口
         /// </summary>
         /// <param name="services"></param>
-        public static void AddHttpApiSetup(this IServiceCollection services)
+        public static void AddHttpApi(this IServiceCollection services)
         {
             services.AddHttpApi<IBlogApi>().ConfigureHttpApiConfig(c =>
             {
-                //c.HttpHost = new Uri("http://localhost:5000/");
+                c.HttpHost = new Uri("http://apk.neters.club/");
                 c.FormatOptions.DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
             });
         }

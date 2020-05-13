@@ -1,17 +1,15 @@
 ﻿using DNet.Core.Model;
 using DNet.Core.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DNet.Core.Tasks.QuartzNet
+namespace DNet.Core.Tasks
 {
     /// <summary>
     /// 服务调度接口
     /// </summary>
     public interface ISchedulerCenter
     {
+
         /// <summary>
         /// 开启任务调度
         /// </summary>
@@ -23,7 +21,7 @@ namespace DNet.Core.Tasks.QuartzNet
         /// <returns></returns>
         Task<MessageModel<string>> StopScheduleAsync();
         /// <summary>
-        /// 添加任务
+        /// 
         /// </summary>
         /// <param name="sysSchedule"></param>
         /// <returns></returns>
@@ -40,5 +38,7 @@ namespace DNet.Core.Tasks.QuartzNet
         /// <param name="sysSchedule"></param>
         /// <returns></returns>
         Task<MessageModel<string>> ResumeJob(TasksQz sysSchedule);
+
     }
+
 }

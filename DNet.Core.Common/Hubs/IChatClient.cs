@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DNet.Core.Common.LogHelper;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Hubs
 {
     public interface IChatClient
     {

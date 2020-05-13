@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.HttpRestSharp
 {
     /// <summary>
     /// API请求执行者接口

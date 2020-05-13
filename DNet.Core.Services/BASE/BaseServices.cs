@@ -1,29 +1,17 @@
-    
-	//----------开始----------
-	
-
+﻿using DNet.Core.IRepository.Base;
+using DNet.Core.IServices.BASE;
+using DNet.Core.Model;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
-using DNet.Core.Common;
-using DNet.Core.IRepository;
-using DNet.Core.IRepository.Base;
-using DNet.Core.IRepository.UnitOfWork;
-using DNet.Core.IServices;
-using DNet.Core.IServices.BASE;
-using DNet.Core.Model;
-using DNet.Core.Model.Models;
-using DNet.Core.Services.BASE;
-using SqlSugar;
 
 namespace DNet.Core.Services.BASE
-{	
-	/// <summary>
-	/// IBaseRepository
-	/// </summary>	
-	public class BaseServices<TEntity> : IBaseServices<TEntity> where TEntity : class, new()
+{
+    public class BaseServices<TEntity> : IBaseServices<TEntity> where TEntity : class, new()
     {
         //public IBaseRepository<TEntity> baseDal = new BaseRepository<TEntity>();
         public IBaseRepository<TEntity> BaseDal;//通过在子类的构造函数中注入，这里是基类，不用构造函数
@@ -34,7 +22,7 @@ namespace DNet.Core.Services.BASE
         }
         /// <summary>
         /// 功能描述:根据ID查询一条数据
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="objId">id（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
         /// <param name="blnUseCache">是否使用缓存</param>
@@ -46,7 +34,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:根据ID查询数据
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="lstIds">id列表（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
         /// <returns>数据实体列表</returns>
@@ -138,7 +126,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:查询所有数据
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <returns>数据列表</returns>
         public async Task<List<TEntity>> Query()
@@ -148,7 +136,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:查询数据列表
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="strWhere">条件</param>
         /// <returns>数据列表</returns>
@@ -159,7 +147,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:查询数据列表
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="whereExpression">whereExpression</param>
         /// <returns>数据列表</returns>
@@ -169,7 +157,7 @@ namespace DNet.Core.Services.BASE
         }
         /// <summary>
         /// 功能描述:查询一个列表
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="whereExpression">条件表达式</param>
         /// <param name="strOrderByFileds">排序字段，如name asc,age desc</param>
@@ -186,7 +174,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:查询一个列表
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="strWhere">条件</param>
         /// <param name="strOrderByFileds">排序字段，如name asc,age desc</param>
@@ -221,7 +209,7 @@ namespace DNet.Core.Services.BASE
         }
         /// <summary>
         /// 功能描述:查询前N条数据
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="whereExpression">条件表达式</param>
         /// <param name="intTop">前N条</param>
@@ -234,7 +222,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:查询前N条数据
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="strWhere">条件</param>
         /// <param name="intTop">前N条</param>
@@ -250,7 +238,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:分页查询
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="whereExpression">条件表达式</param>
         /// <param name="intPageIndex">页码（下标0）</param>
@@ -273,7 +261,7 @@ namespace DNet.Core.Services.BASE
 
         /// <summary>
         /// 功能描述:分页查询
-        /// 作　　者:AZLinli.Blog.Core
+        /// 作　　者:AZLinli.DNet.Core
         /// </summary>
         /// <param name="strWhere">条件</param>
         /// <param name="intPageIndex">页码（下标0）</param>
@@ -305,9 +293,6 @@ namespace DNet.Core.Services.BASE
         {
             return await BaseDal.QueryMuch(joinExpression, selectExpression, whereLambda);
         }
-
     }
-}
 
-	//----------结束----------
-	
+}

@@ -1,12 +1,12 @@
-﻿using DNet.Core.IServices;
+﻿using DNet.Core.Common.Helper;
+using DNet.Core.IServices;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DNet.Core.Tasks.HostedService
+namespace DNet.Core.Tasks
 {
     public class Job1TimedService : IHostedService, IDisposable
     {

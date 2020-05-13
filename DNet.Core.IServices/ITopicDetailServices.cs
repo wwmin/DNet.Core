@@ -1,20 +1,15 @@
-	//----------TopicDetail开始----------
-    
-
-using DNet.Core.IServices.BASE;
+﻿using DNet.Core.IServices.BASE;
 using DNet.Core.Model.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DNet.Core.IServices
-{	
-	/// <summary>
-	/// TopicDetailServices
-	/// </summary>	
-    public interface ITopicDetailServices :IBaseServices<TopicDetail>
-	{
-
-       
+{
+    public interface ITopicDetailServices : IBaseServices<TopicDetail>
+    {
+        Task<List<TopicDetail>> GetTopicDetails();
     }
 }
-
-	//----------TopicDetail结束----------
-	

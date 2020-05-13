@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.Helper
 {
     public class GetNetData
     {
@@ -54,4 +55,6 @@ namespace DNet.Core.Common
 
         }
     }
+
+
 }

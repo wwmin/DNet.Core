@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.MemoryCache
 {
     /// <summary>
     /// 实例化缓存接口ICaching
@@ -28,4 +26,5 @@ namespace DNet.Core.Common
             _cache.Set(cacheKey, cacheValue, TimeSpan.FromSeconds(7200));
         }
     }
+
 }

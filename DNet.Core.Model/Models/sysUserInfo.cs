@@ -1,12 +1,14 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ÓÃ»§ĞÅÏ¢±í
+    /// ç”¨æˆ·ä¿¡æ¯è¡¨
     /// </summary>
     public class sysUserInfo
     {
@@ -26,72 +28,72 @@ namespace DNet.Core.Model.Models
 
         }
         /// <summary>
-        /// ÓÃ»§ID
+        /// ç”¨æˆ·ID
         /// </summary>
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int uID { get; set; }
         /// <summary>
-        /// µÇÂ¼ÕËºÅ
+        /// ç™»å½•è´¦å·
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string uLoginName { get; set; }
         /// <summary>
-        /// µÇÂ¼ÃÜÂë
+        /// ç™»å½•å¯†ç 
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string uLoginPWD { get; set; }
         /// <summary>
-        /// ÕæÊµĞÕÃû
+        /// çœŸå®å§“å
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string uRealName { get; set; }
         /// <summary>
-        /// ×´Ì¬
+        /// çŠ¶æ€
         /// </summary>
         public int uStatus { get; set; }
         /// <summary>
-        /// ±¸×¢
+        /// å¤‡æ³¨
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = int.MaxValue, IsNullable = true)]
         public string uRemark { get; set; }
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         public System.DateTime uCreateTime { get; set; } = DateTime.Now;
         /// <summary>
-        /// ¸üĞÂÊ±¼ä
+        /// æ›´æ–°æ—¶é—´
         /// </summary>
         public System.DateTime uUpdateTime { get; set; } = DateTime.Now;
 
         /// <summary>
-        ///×îºóµÇÂ¼Ê±¼ä 
+        ///æœ€åç™»å½•æ—¶é—´ 
         /// </summary>
-        public DateTime uLastErrTime { get; set; } = DateTime.Now;
+        public DateTime uLastErrTime { get; set; }= DateTime.Now;
 
         /// <summary>
-        ///´íÎó´ÎÊı 
+        ///é”™è¯¯æ¬¡æ•° 
         /// </summary>
         public int uErrorCount { get; set; }
 
 
 
         /// <summary>
-        /// µÇÂ¼ÕËºÅ
+        /// ç™»å½•è´¦å·
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string name { get; set; }
 
-        // ĞÔ±ğ
+        // æ€§åˆ«
         [SugarColumn(IsNullable = true)]
         public int sex { get; set; } = 0;
-        // ÄêÁä
+        // å¹´é¾„
         [SugarColumn(IsNullable = true)]
         public int age { get; set; }
-        // ÉúÈÕ
+        // ç”Ÿæ—¥
         [SugarColumn(IsNullable = true)]
         public DateTime birth { get; set; } = DateTime.Now;
-        // µØÖ·
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        // åœ°å€
+        [SugarColumn(ColumnDataType ="nvarchar",Length = 200, IsNullable = true)]
         public string addr { get; set; }
 
         [SugarColumn(IsNullable = true)]
@@ -104,4 +106,4 @@ namespace DNet.Core.Model.Models
         public List<string> RoleNames { get; set; }
 
     }
-}	 
+}

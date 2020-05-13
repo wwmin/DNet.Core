@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace DNet.Core.Common.HttpContextUser
 {

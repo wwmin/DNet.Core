@@ -16,7 +16,7 @@
 <# var manager = new Manager(Host, GenerationEnvironment, true); #>
 <# 
 	var OutputPath1 =Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Host.TemplateFile+"..")+"..")+"..");
-	OutputPath1=Path.Combine(OutputPath1,"DNet.Core.Model","Models_New"); //输出文件夹
+	OutputPath1=Path.Combine(OutputPath1,"DNet.Core.Model","Models_New");
 	if (!Directory.Exists(OutputPath1))
 	{
 	    Directory.CreateDirectory(OutputPath1);
@@ -40,7 +40,7 @@ namespace DNet.Core.Model.Models
 	 {
 	 <# foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, tableName)){#>
 
-		/// <summary>
+		 /// <summary>
         /// <#= column.Remark == "" ? column.ColumnName : column.Remark.Replace("\r\n"," ") #>
         /// </summary>
 		<# 

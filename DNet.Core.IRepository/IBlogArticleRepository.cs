@@ -1,19 +1,14 @@
-	//----------BlogArticle开始----------
-    
-	
-using DNet.Core.IRepository.Base;
+﻿using DNet.Core.IRepository.Base;
 using DNet.Core.Model.Models;
-namespace DNet.Core.IRepository
-{	
-	/// <summary>
-	/// IBlogArticleRepository
-	/// </summary>	
-	public interface IBlogArticleRepository : IBaseRepository<BlogArticle>//类名
-    {
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-       
+namespace DNet.Core.IRepository
+{
+    public interface IBlogArticleRepository : IBaseRepository<BlogArticle>
+    {
     }
 }
-
-	//----------BlogArticle结束----------
-	

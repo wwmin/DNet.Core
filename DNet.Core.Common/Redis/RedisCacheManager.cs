@@ -1,7 +1,7 @@
-﻿using System;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
+using System;
 
-namespace DNet.Core.Common.Redis
+namespace DNet.Core.Common
 {
     public class RedisCacheManager : IRedisCacheManager
     {

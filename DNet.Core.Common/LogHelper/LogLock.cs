@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using DNet.Core.Common.Helper;
+using DNet.Core.Hubs;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.LogHelper
 {
     public class LogLock
     {
@@ -343,4 +347,6 @@ namespace DNet.Core.Common
             };
         }
     }
+
+
 }

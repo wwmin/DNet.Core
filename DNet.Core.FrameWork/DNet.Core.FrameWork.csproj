@@ -5,33 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IRepository.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="DNet.Core.FrameWork.Entity\DNet.Core.FrameWork.Entity.tt">
+    <None Update="DNet.Core.FrameWork.Entity\DNet.Core.FrameWork.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DNet.Core.FrameWork.Entity.Entity.cs</LastGenOutput>
+      <LastGenOutput>DNet.Core.FrameWork.cs</LastGenOutput>
     </None>
     <None Update="DNet.Core.FrameWork.IRepository\DNet.Core.FrameWork.IRepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
     </None>
-    <None Update="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IRepository.tt">
-      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+    <None Update="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IServices.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DNet.Core.FrameWork.IServices.cs</LastGenOutput>
     </None>
-    <None Update="DNet.Core.FrameWork.Repository\DNet.Core.FrameWork.IRepository.tt">
-      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+    <None Update="DNet.Core.FrameWork.Repository\DNet.Core.FrameWork.Repository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DNet.Core.FrameWork.Repository.cs</LastGenOutput>
     </None>
-    <None Update="DNet.Core.FrameWork.Services\DNet.Core.FrameWork.IRepository.tt">
-      <LastGenOutput>DNet.Core.FrameWork.IRepository.cs</LastGenOutput>
+    <None Update="DNet.Core.FrameWork.Services\DNet.Core.FrameWork.Services.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DNet.Core.FrameWork.Services.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -45,20 +37,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
     </Compile>
-    <Compile Update="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IRepository.cs">
+    <Compile Update="DNet.Core.FrameWork.IServices\DNet.Core.FrameWork.IServices.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+      <DependentUpon>DNet.Core.FrameWork.IServices.tt</DependentUpon>
     </Compile>
-    <Compile Update="DNet.Core.FrameWork.Repository\DNet.Core.FrameWork.IRepository.cs">
+    <Compile Update="DNet.Core.FrameWork.Repository\DNet.Core.FrameWork.Repository.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+      <DependentUpon>DNet.Core.FrameWork.Repository.tt</DependentUpon>
     </Compile>
-    <Compile Update="DNet.Core.FrameWork.Services\DNet.Core.FrameWork.IRepository.cs">
+    <Compile Update="DNet.Core.FrameWork.Services\DNet.Core.FrameWork.Services.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DNet.Core.FrameWork.IRepository.tt</DependentUpon>
+      <DependentUpon>DNet.Core.FrameWork.Services.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

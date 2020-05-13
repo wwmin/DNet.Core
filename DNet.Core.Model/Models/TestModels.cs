@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SqlSugar;
+using System;
 
 namespace DNet.Core.Model.Models
 {
+
     public class TestMuchTableResult
     {
         public string moduleName { get; set; }

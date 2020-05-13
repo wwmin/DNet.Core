@@ -1,8 +1,6 @@
-	//----------Module开始----------
-    
-	
 using DNet.Core.IRepository.Base;
 using DNet.Core.Model.Models;
+
 namespace DNet.Core.IRepository
 {	
 	/// <summary>
@@ -15,5 +13,5 @@ namespace DNet.Core.IRepository
     }
 }
 
-	//----------Module结束----------
+
 	

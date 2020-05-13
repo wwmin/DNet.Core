@@ -1,74 +1,73 @@
-using SqlSugar;
+ï»¿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DNet.Core.Model.Models
 {
     /// <summary>
-    /// ²©¿ÍÎÄÕÂ
+    /// åšå®¢æ–‡ç« 
     /// </summary>
     public class BlogArticle
     {
         /// <summary>
-        /// Ö÷¼ü
+        /// ä¸»é”®
         /// </summary>
-        /// ÕâÀïÖ®ËùÒÔÃ»ÓÃRootEntity£¬ÊÇÏë±£³ÖºÍÖ®Ç°µÄÊı¾İ¿âÒ»ÖÂ£¬Ö÷¼üÊÇbID£¬²»ÊÇId
+        /// è¿™é‡Œä¹‹æ‰€ä»¥æ²¡ç”¨RootEntityï¼Œæ˜¯æƒ³ä¿æŒå’Œä¹‹å‰çš„æ•°æ®åº“ä¸€è‡´ï¼Œä¸»é”®æ˜¯bIDï¼Œä¸æ˜¯Id
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
         public int bID { get; set; }
         /// <summary>
-        /// ´´½¨ÈË
+        /// åˆ›å»ºäºº
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 60, IsNullable = true)]
         public string bsubmitter { get; set; }
 
         /// <summary>
-        /// ±êÌâblog
+        /// æ ‡é¢˜blog
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = 256, IsNullable = true)]
         public string btitle { get; set; }
 
         /// <summary>
-        /// Àà±ğ
+        /// ç±»åˆ«
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string bcategory { get; set; }
 
         /// <summary>
-        /// ÄÚÈİ
+        /// å†…å®¹
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string bcontent { get; set; }
 
         /// <summary>
-        /// ·ÃÎÊÁ¿
+        /// è®¿é—®é‡
         /// </summary>
         public int btraffic { get; set; }
 
         /// <summary>
-        /// ÆÀÂÛÊıÁ¿
+        /// è¯„è®ºæ•°é‡
         /// </summary>
         public int bcommentNum { get; set; }
 
         /// <summary> 
-        /// ĞŞ¸ÄÊ±¼ä
+        /// ä¿®æ”¹æ—¶é—´
         /// </summary>
         public DateTime bUpdateTime { get; set; }
 
         /// <summary>
-        /// ´´½¨Ê±¼ä
+        /// åˆ›å»ºæ—¶é—´
         /// </summary>
         public System.DateTime bCreateTime { get; set; }
         /// <summary>
-        /// ±¸×¢
+        /// å¤‡æ³¨
         /// </summary>
         [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
         public string bRemark { get; set; }
 
         /// <summary>
-        /// Âß¼­É¾³ı
+        /// é€»è¾‘åˆ é™¤
         /// </summary>
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
 
     }
-}	 
+}

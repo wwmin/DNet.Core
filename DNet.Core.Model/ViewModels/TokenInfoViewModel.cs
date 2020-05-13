@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DNet.Core.Model.ViewModels
 {
-    public class TokenInfoViewModel
+  public  class TokenInfoViewModel
     {
         public bool success { get; set; }
         public string token { get; set; }

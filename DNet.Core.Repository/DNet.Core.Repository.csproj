@@ -1,8 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\DNet.Core\bin\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="DNet.Core.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DNet.Core.IRepository\DNet.Core.IRepository.csproj" />

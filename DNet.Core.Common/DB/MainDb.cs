@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.DB
 {
     public static class MainDb
     {

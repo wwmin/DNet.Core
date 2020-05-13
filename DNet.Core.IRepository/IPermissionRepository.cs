@@ -1,19 +1,10 @@
-	//----------Permission开始----------
-    
-	
+﻿
 using DNet.Core.IRepository.Base;
 using DNet.Core.Model.Models;
-namespace DNet.Core.IRepository
-{	
-	/// <summary>
-	/// IPermissionRepository
-	/// </summary>	
-	public interface IPermissionRepository : IBaseRepository<Permission>//类名
-    {
 
-       
+namespace DNet.Core.IRepository
+{
+    public partial interface IPermissionRepository : IBaseRepository<Permission>
+    {
     }
 }
-
-	//----------Permission结束----------
-	

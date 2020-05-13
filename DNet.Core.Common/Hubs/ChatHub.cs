@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using DNet.Core.Common.LogHelper;
+using Microsoft.AspNetCore.SignalR;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Hubs
 {
     public class ChatHub : Hub<IChatClient>
     {
@@ -74,7 +72,7 @@ namespace DNet.Core.Common
 
         public async Task SendMessage(string user, string message)
         {
-            await Clients.All.ReceiveMessage(user, message);
+            await Clients.All.ReceiveMessage( user, message);
         }
 
         //定于一个通讯管道，用来管理我们和客户端的连接

@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
+ï»¿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml;
 using Autofac.Extensions.DependencyInjection;
-using DNet.Core.Model;
+using DNet.Core.Model.Models;
 using log4net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,29 +20,33 @@ namespace DNet.Core
         {
             XmlDocument log4netConfig = new XmlDocument();
             log4netConfig.Load(File.OpenRead("Log4net.config"));
-            var repo = log4net.LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
-            log4net.Config.XmlConfigurator.Configure(repo, log4netConfig["log4net"]);
-            //Éú³É³ĞÔØwebÓ¦ÓÃ³ÌĞòµÄMicrosoft.AspNetCore.Hosting.IWebHost,BuildÊÇWebHostBuilder×îÖÕµÄÄ¿µÄ,½«·µ»ØÒ»¸ö¹¹ÔìµÄWebHost,×îÖÕÉú³ÉËŞÖ÷
 
-            var host = CreateHostBuilder(args).Build();//.Run();
+            var repo = log4net.LogManager.CreateRepository(
+                Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
+
+            log4net.Config.XmlConfigurator.Configure(repo, log4netConfig["log4net"]);
+
+            // ç”Ÿæˆæ‰¿è½½ web åº”ç”¨ç¨‹åºçš„ Microsoft.AspNetCore.Hosting.IWebHostã€‚Buildæ˜¯WebHostBuilderæœ€ç»ˆçš„ç›®çš„ï¼Œå°†è¿”å›ä¸€ä¸ªæ„é€ çš„WebHostï¼Œæœ€ç»ˆç”Ÿæˆå®¿ä¸»ã€‚
+            var host = CreateHostBuilder(args).Build();
             var hadSeeded = Environment.GetEnvironmentVariable("ASPNETCORE_HAD_SEED");
-            ConsoleHelper.WriteSuccessLine("Êı¾İ¿âÊÇ·ñÒÑ¾­Ìí¼ÓÖÖ×Ó:" + (hadSeeded == "1" ? "ÊÇ" : "·ñ"));
-            if (hadSeeded != "1")
+            if (string.IsNullOrWhiteSpace(hadSeeded))
             {
+                // åˆ›å»ºå¯ç”¨äºè§£æä½œç”¨åŸŸæœåŠ¡çš„æ–° Microsoft.Extensions.DependencyInjection.IServiceScopeã€‚
                 using (var scope = host.Services.CreateScope())
                 {
                     var services = scope.ServiceProvider;
                     var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
                     try
                     {
-                        //´Ósystem.IServicesÌá¹©³ÌĞò»ñÈ¡TÀàĞÍµÄ·şÎñ
-                        //Êı¾İ¿âÁ¬½Ó×Ö·û´®ÊÇÔÚModel²ãµÄSeedÎÄ¼ş¼ĞÏÂµÄMyContext.csÖĞ
+                        // ä» system.IServicecæä¾›ç¨‹åºè·å– T ç±»å‹çš„æœåŠ¡ã€‚
+                        // æ•°æ®åº“è¿æ¥å­—ç¬¦ä¸²æ˜¯åœ¨ Model å±‚çš„ Seed æ–‡ä»¶å¤¹ä¸‹çš„ MyContext.cs ä¸­
                         var configuration = services.GetRequiredService<IConfiguration>();
                         if (configuration.GetSection("AppSettings")["SeedDBEnabled"].ObjToBool() || configuration.GetSection("AppSettings")["SeedDBDataEnabled"].ObjToBool())
                         {
                             var myContext = services.GetRequiredService<MyContext>();
-                            var env = services.GetRequiredService<IWebHostEnvironment>();
-                            DBSeed.SeedAsync(myContext, env.WebRootPath).Wait();
+                            var Env = services.GetRequiredService<IWebHostEnvironment>();
+                            DBSeed.SeedAsync(myContext, Env.WebRootPath).Wait();
                             Environment.SetEnvironmentVariable("ASPNETCORE_HAD_SEED", "1");
                         }
                     }
@@ -54,31 +55,34 @@ namespace DNet.Core
                         log.Error($"Error occured seeding the Database.\n{e.Message}");
                         throw;
                     }
+
                 }
             }
 
-            // ÔËĞĞ web Ó¦ÓÃ³ÌĞò²¢×èÖ¹µ÷ÓÃÏß³Ì, Ö±µ½Ö÷»ú¹Ø±Õ¡£
-            // ´´½¨Íê WebHost Ö®ºó£¬±ãµ÷ÓÃËüµÄ Run ·½·¨£¬¶ø Run ·½·¨»áÈ¥µ÷ÓÃ WebHost µÄ StartAsync ·½·¨
-            // ½«Initialize·½·¨´´½¨µÄApplication¹ÜµÀ´«ÈëÒÔ¹©´¦ÀíÏûÏ¢
-            // Ö´ĞĞHostedServiceExecutor.StartAsync·½·¨
-            // ¡ù¡ù¡ù¡ù ÓĞÒì³££¬²é¿´ Log ÎÄ¼ş¼ĞÏÂµÄÒì³£ÈÕÖ¾ ¡ù¡ù¡ù¡ù  
+            // è¿è¡Œ web åº”ç”¨ç¨‹åºå¹¶é˜»æ­¢è°ƒç”¨çº¿ç¨‹, ç›´åˆ°ä¸»æœºå…³é—­ã€‚
+            // åˆ›å»ºå®Œ WebHost ä¹‹åï¼Œä¾¿è°ƒç”¨å®ƒçš„ Run æ–¹æ³•ï¼Œè€Œ Run æ–¹æ³•ä¼šå»è°ƒç”¨ WebHost çš„ StartAsync æ–¹æ³•
+            // å°†Initializeæ–¹æ³•åˆ›å»ºçš„Applicationç®¡é“ä¼ å…¥ä»¥ä¾›å¤„ç†æ¶ˆæ¯
+            // æ‰§è¡ŒHostedServiceExecutor.StartAsyncæ–¹æ³•
+            // â€»â€»â€»â€» æœ‰å¼‚å¸¸ï¼ŒæŸ¥çœ‹ Log æ–‡ä»¶å¤¹ä¸‹çš„å¼‚å¸¸æ—¥å¿— â€»â€»â€»â€»  
             host.Run();
         }
 
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureWebHostDefaults(webBuilder =>
+          Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory()) //<--NOTE THIS
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder
+                .UseStartup<Startup>()
+                .ConfigureLogging((hostingContext, builder) =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .ConfigureLogging((hostingContext, builder) =>
-                    {
-                        builder.ClearProviders();
-                        builder.SetMinimumLevel(LogLevel.Trace);
-                        builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                        builder.AddConsole();
-                        builder.AddDebug();
-                    });
+                    builder.ClearProviders();
+                    builder.SetMinimumLevel(LogLevel.Trace);
+                    builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    builder.AddConsole();
+                    builder.AddDebug();
                 });
+            });
     }
 }

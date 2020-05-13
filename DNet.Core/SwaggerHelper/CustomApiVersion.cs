@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace DNet.Core.SwaggerHelper
 {
     /// <summary>
-    /// 自定义Api版本
+    /// 自定义版本
     /// </summary>
     public class CustomApiVersion
     {
-        public enum ApiVersion
+        /// <summary>
+        /// Api接口版本 自定义
+        /// </summary>
+        public enum ApiVersions
         {
             /// <summary>
-            /// V1版本
+            /// V1 版本
             /// </summary>
             [Description("V1版本")]
             V1 = 1,
             /// <summary>
-            /// V2版本
+            /// V2 版本
             /// </summary>
             [Description("V2版本")]
-            V2 = 2
+            V2 = 2,
         }
     }
 }

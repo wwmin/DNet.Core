@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using DNet.Core.AuthHelper.Policys;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -21,18 +20,19 @@ namespace DNet.Core.AuthHelper
         {
             throw new NotImplementedException();
         }
-
         protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
         {
             Response.ContentType = "application/json";
             Response.StatusCode = StatusCodes.Status401Unauthorized;
             await Response.WriteAsync(JsonConvert.SerializeObject((new ApiResponse(StatusCode.CODE401)).MessageModel));
         }
+
         protected override async Task HandleForbiddenAsync(AuthenticationProperties properties)
         {
             Response.ContentType = "application/json";
             Response.StatusCode = StatusCodes.Status403Forbidden;
             await Response.WriteAsync(JsonConvert.SerializeObject((new ApiResponse(StatusCode.CODE403)).MessageModel));
         }
+
     }
 }

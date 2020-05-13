@@ -1,32 +1,23 @@
-	//----------PasswordLib开始----------
-    
-
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using DNet.Core.Common;
 using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
 using DNet.Core.IServices;
 using DNet.Core.Model.Models;
 using DNet.Core.Services.BASE;
+
 namespace DNet.Core.Services
-{	
-	/// <summary>
-	/// PasswordLibServices
-	/// </summary>	
-	public class PasswordLibServices : BaseServices<PasswordLib>, IPasswordLibServices
+{
+    public partial class PasswordLibServices : BaseServices<PasswordLib>, IPasswordLibServices
     {
-	
-        IPasswordLibRepository dal;
+        IPasswordLibRepository _dal;
         public PasswordLibServices(IPasswordLibRepository dal)
         {
-            this.dal = dal;
+            this._dal = dal;
             base.BaseDal = dal;
         }
-       
+
     }
 }
-
-	//----------PasswordLib结束----------
-	

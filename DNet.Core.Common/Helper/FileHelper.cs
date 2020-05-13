@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.Helper
 {
     public class FileHelper : IDisposable
     {
+
         private bool _alreadyDispose = false;
 
         #region 构造函数
@@ -301,7 +303,7 @@ namespace DNet.Core.Common
         }
         #endregion
 
-        #region 将指定文件夹下面的所有内容copy到目标文件夹下面 如果目标文件夹为只读属性就会报错。
+        #region 将指定文件夹下面的所有内容copy到目标文件夹下面 果目标文件夹为只读属性就会报错。
         /****************************************
           * 函数名称：CopyDir
           * 功能说明：将指定文件夹下面的所有内容copy到目标文件夹下面 果目标文件夹为只读属性就会报错。

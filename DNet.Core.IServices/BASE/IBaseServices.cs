@@ -57,4 +57,5 @@ namespace DNet.Core.IServices.BASE
             Expression<Func<T, T2, T3, TResult>> selectExpression,
             Expression<Func<T, T2, T3, bool>> whereLambda = null) where T : class, new();
     }
+
 }

@@ -1,10 +1,20 @@
-﻿using DNet.Core.Common;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using DNet.Core.AuthHelper.OverWrite;
+using Microsoft.AspNetCore.Builder;
+using System.IO;
+using DNet.Core.Common.LogHelper;
+using StackExchange.Profiling;
+using System.Text.RegularExpressions;
+using DNet.Core.IServices;
+using Newtonsoft.Json;
+using DNet.Core.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using DNet.Core.Common;
 
 namespace DNet.Core.Middlewares
 {
@@ -37,9 +47,11 @@ namespace DNet.Core.Middlewares
         {
             if (Appsettings.app("Middleware", "SignalR", "Enabled").ObjToBool())
             {
-                await _hubContext.Clients.All.SendAsync("ReceiveUpdate", LogLock.GetLogData());
+                await _hubContext.Clients.All.SendAsync("ReceiveUpdate", LogLock.GetLogData()); 
             }
             await _next(context);
         }
+
     }
 }
+

@@ -1,11 +1,11 @@
 ﻿using DNet.Core.Common;
+using DNet.Core.Common.DB;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace DNet.Core.Model
+namespace DNet.Core.Model.Models
 {
     public class MyContext
     {

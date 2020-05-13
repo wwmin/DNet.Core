@@ -1,8 +1,11 @@
-﻿using DNet.Core.IServices;
+﻿using DNet.Core.Common.Helper;
+using DNet.Core.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +26,6 @@ namespace DNet.Core.AuthHelper
         public IAuthenticationSchemeProvider Schemes { get; set; }
         private readonly IRoleModulePermissionServices _roleModulePermissionServices;
         private readonly IHttpContextAccessor _accessor;
-
 
         /// <summary>
         /// 构造函数注入

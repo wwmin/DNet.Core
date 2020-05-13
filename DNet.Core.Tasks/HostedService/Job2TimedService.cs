@@ -1,26 +1,27 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using DNet.Core.Common.Helper;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DNet.Core.Tasks.HostedService
+namespace DNet.Core.Tasks
 {
     public class Job2TimedService : IHostedService, IDisposable
     {
         private Timer _timer;
-        //这里可以注入
+
+        // 这里可以注入
         public Job2TimedService()
         {
-
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine("Job 2 is starting.");
+
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-               TimeSpan.FromSeconds(60 * 60 * 2));//两个小时
+                TimeSpan.FromSeconds(60 * 60 * 2));//两个小时
 
             return Task.CompletedTask;
         }

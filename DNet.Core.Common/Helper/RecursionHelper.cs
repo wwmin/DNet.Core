@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DNet.Core.Common
+namespace DNet.Core.Common.Helper
 {
     /// <summary>
     /// 泛型递归求树形结构

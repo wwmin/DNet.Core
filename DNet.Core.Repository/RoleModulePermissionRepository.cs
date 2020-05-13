@@ -1,23 +1,22 @@
-	//----------RoleModulePermissionå¼€å§‹----------
-    
-
+using DNet.Core.Repository.Base;
 using DNet.Core.Model.Models;
 using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SqlSugar;
+using DNet.Core.IRepository.UnitOfWork;
 
 namespace DNet.Core.Repository
-{	
-	/// <summary>
-	/// RoleModulePermissionRepository
-	/// </summary>	
-	public class RoleModulePermissionRepository : BaseRepository<RoleModulePermission>, IRoleModulePermissionRepository
+{
+    /// <summary>
+    /// RoleModulePermissionRepository
+    /// </summary>	
+    public class RoleModulePermissionRepository : BaseRepository<RoleModulePermission>, IRoleModulePermissionRepository
     {
-		public RoleModulePermissionRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public RoleModulePermissionRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
+
         public async Task<List<RoleModulePermission>> WithChildrenModel()
         {
             var list = await Task.Run(() => Db.Queryable<RoleModulePermission>()
@@ -27,6 +26,7 @@ namespace DNet.Core.Repository
 
             return null;
         }
+
         public async Task<List<TestMuchTableResult>> QueryMuchTable()
         {
             return await QueryMuch<RoleModulePermission, Module, Permission, TestMuchTableResult>(
@@ -49,9 +49,9 @@ namespace DNet.Core.Repository
         }
 
         /// <summary>
-        /// è§’è‰²æƒé™Map
-        /// RoleModulePermission, Module, Role ä¸‰è¡¨è”åˆ
-        /// ç¬¬å››ä¸ªç±»å‹ RoleModulePermission æ˜¯è¿”å›å€¼
+        /// ½ÇÉ«È¨ÏŞMap
+        /// RoleModulePermission, Module, Role Èı±íÁªºÏ
+        /// µÚËÄ¸öÀàĞÍ RoleModulePermission ÊÇ·µ»ØÖµ
         /// </summary>
         /// <returns></returns>
         public async Task<List<RoleModulePermission>> RoleModuleMaps()
@@ -72,8 +72,8 @@ namespace DNet.Core.Repository
                 (rmp, m, r) => rmp.IsDeleted == false && m.IsDeleted == false && r.IsDeleted == false
                 );
         }
+
     }
+
 }
 
-	//----------RoleModulePermissionç»“æŸ----------
-	

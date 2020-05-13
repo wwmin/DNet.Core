@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Routing;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Filter
 {
     /// <summary>
-    ///  全局路由前缀公约
+    /// 全局路由前缀公约
     /// </summary>
     public class GlobalRoutePrefixFilter : IApplicationModelConvention
     {
@@ -19,6 +16,7 @@ namespace DNet.Core.Filter
             _centralPrefix = new AttributeRouteModel(routeTemplateProvider);
         }
 
+        //接口的Apply方法
         public void Apply(ApplicationModel application)
         {
             //遍历所有的 Controller
@@ -49,4 +47,5 @@ namespace DNet.Core.Filter
             }
         }
     }
+
 }

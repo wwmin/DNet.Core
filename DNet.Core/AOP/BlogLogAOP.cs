@@ -1,13 +1,17 @@
-﻿using Castle.DynamicProxy;
-using DNet.Core.Common;
+﻿using DNet.Core.Common.LogHelper;
+using DNet.Core.Hubs;
+using DNet.Core.Model.Models;
+using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DNet.Core.AOP
@@ -26,6 +30,11 @@ namespace DNet.Core.AOP
             _accessor = accessor;
         }
 
+
+        /// <summary>
+        /// 实例化IInterceptor唯一方法 
+        /// </summary>
+        /// <param name="invocation">包含被拦截方法的信息</param>
         public void Intercept(IInvocation invocation)
         {
             string UserName = _accessor.HttpContext?.User?.Identity?.Name;
@@ -107,8 +116,9 @@ namespace DNet.Core.AOP
             _hubContext.Clients.All.SendAsync("ReceiveUpdate", LogLock.GetLogData()).Wait();
         }
 
-        private async Task SuccessAction(IInvocation invocation,string dataIntercept)
+        private async Task SuccessAction(IInvocation invocation, string dataIntercept)
         {
+
             var type = invocation.Method.ReturnType;
             if (typeof(Task).IsAssignableFrom(type))
             {
@@ -133,18 +143,19 @@ namespace DNet.Core.AOP
         {
             if (ex != null)
             {
-                //执行的service中,收录异常
-                MiniProfiler.Current.CustomTiming("Error: ", ex.Message);
-                //执行的service中,捕获异常
+                //执行的 service 中，收录异常
+                MiniProfiler.Current.CustomTiming("Errors：", ex.Message);
+                //执行的 service 中，捕获异常
                 dataIntercept += ($"【执行完成结果】：方法中出现异常：{ex.Message + ex.InnerException}\r\n");
 
-                //异常日志里有详细的堆栈信息
+                // 异常日志里有详细的堆栈信息
                 Parallel.For(0, 1, e =>
                 {
                     LogLock.OutSql2Log("AOPLog", new string[] { dataIntercept });
                 });
             }
         }
+
 
         public static bool IsAsyncMethod(MethodInfo method)
         {
@@ -153,7 +164,9 @@ namespace DNet.Core.AOP
                 (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
                 );
         }
+
     }
+
 
     internal static class InternalAsyncHelper
     {
@@ -205,4 +218,5 @@ namespace DNet.Core.AOP
                 .Invoke(null, new object[] { actualReturnValue, action, finalAction });
         }
     }
+
 }

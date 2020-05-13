@@ -1,17 +1,13 @@
-﻿using DNet.Core.AuthHelper;
+﻿using DNet.Core.AuthHelper.Policys;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace DNet.Core.Middlewares
 {
-    /// <summary>
-    /// 异常处理中间件
-    /// </summary>
     public class ExceptionHandlerMidd
     {
         private readonly RequestDelegate _next;

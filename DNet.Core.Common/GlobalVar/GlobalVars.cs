@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DNet.Core
+﻿namespace DNet.Core
 {
     /// <summary>
     /// 权限变量配置

@@ -1,18 +1,17 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using AspNetCoreRateLimit;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
-using AutoMapper;
 using DNet.Core.AOP;
 using DNet.Core.Common;
-using DNet.Core.Common.Redis;
+using DNet.Core.Common.LogHelper;
 using DNet.Core.Extensions;
 using DNet.Core.Filter;
+using DNet.Core.Hubs;
 using DNet.Core.IServices;
 using DNet.Core.Middlewares;
 using DNet.Core.Model;
@@ -20,30 +19,29 @@ using log4net;
 using log4net.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using WebApiClient.Extensions.DependencyInjection;
 using static DNet.Core.SwaggerHelper.CustomApiVersion;
 
 namespace DNet.Core
 {
     public class Startup
     {
+
         /// <summary>
-        /// log4net²Ö´¢¿â
+        /// log4net ä»“å‚¨åº“
         /// </summary>
         public static ILoggerRepository Repository { get; set; }
         private IServiceCollection _services;
         private List<Type> tsDIAutofac = new List<Type>();
-        private static readonly ILog log = LogManager.GetLogger(typeof(GlobalExceptionFilter));
+        private static readonly ILog log =
+        LogManager.GetLogger(typeof(GlobalExceptionsFilter));
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
@@ -51,11 +49,12 @@ namespace DNet.Core
         }
 
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Env { get; set; }
+        public IWebHostEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // ä»¥ä¸‹codeå¯èƒ½ä¸æ–‡ç« ä¸­ä¸ä¸€æ ·,å¯¹ä»£ç åšäº†å°è£…,å…·ä½“æŸ¥çœ‹å³ä¾§ Extensions æ–‡ä»¶å¤¹.
             services.AddSingleton<IRedisCacheManager, RedisCacheManager>();
             services.AddSingleton(new Appsettings(Configuration));
             services.AddSingleton(new LogLock(Env.ContentRootPath));
@@ -72,7 +71,7 @@ namespace DNet.Core
             services.AddJobSetup();
             services.AddHttpContextSetup();
             services.AddAppConfigSetup();
-            services.AddHttpApiSetup();
+            services.AddHttpApi();
             if (Permissions.IsUseIds4)
             {
                 services.AddAuthorization_Ids4Setup();
@@ -85,20 +84,43 @@ namespace DNet.Core
 
             services.AddSignalR().AddNewtonsoftJsonProtocol();
 
-            //services.AddScoped<UseServiceDIAttribute>();
+            services.AddScoped<UseServiceDIAttribute>();
 
             services.Configure<KestrelServerOptions>(x => x.AllowSynchronousIO = true)
-                   .Configure<IISServerOptions>(x => x.AllowSynchronousIO = true);
+                    .Configure<IISServerOptions>(x => x.AllowSynchronousIO = true);
 
-            services.AddControllerSetup();
+            //services.AddControllerSetup();
+            services.AddControllers(o =>
+            {
+                // å…¨å±€å¼‚å¸¸è¿‡æ»¤
+                o.Filters.Add(typeof(GlobalExceptionsFilter));
+                // å…¨å±€è·¯ç”±æƒé™å…¬çº¦
+                //o.Conventions.Insert(0, new GlobalRouteAuthorizeConvention());
+                // å…¨å±€è·¯ç”±å‰ç¼€ï¼Œç»Ÿä¸€ä¿®æ”¹è·¯ç”±
+                o.Conventions.Insert(0, new GlobalRoutePrefixFilter(new RouteAttribute(RoutePrefix.Name)));
+            })
+          //å…¨å±€é…ç½®Jsonåºåˆ—åŒ–å¤„ç†
+          .AddNewtonsoftJson(options =>
+          {
+                //å¿½ç•¥å¾ªç¯å¼•ç”¨
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //ä¸ä½¿ç”¨é©¼å³°æ ·å¼çš„key
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //è®¾ç½®æ—¶é—´æ ¼å¼
+                //options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+            });
+
             _services = services;
         }
 
+        // æ³¨æ„åœ¨CreateDefaultBuilderä¸­ï¼Œæ·»åŠ AutofacæœåŠ¡å·¥å‚
         public void ConfigureContainer(ContainerBuilder builder)
         {
             var basePath = AppContext.BaseDirectory;
             //builder.RegisterType<AdvertisementServices>().As<IAdvertisementServices>();
-            #region ´øÓĞ½Ó¿Ú²ãµÄ·şÎñ×¢Èë
+
+
+            #region å¸¦æœ‰æ¥å£å±‚çš„æœåŠ¡æ³¨å…¥
 
 
             var servicesDllFile = Path.Combine(basePath, "DNet.Core.Services.dll");
@@ -106,14 +128,14 @@ namespace DNet.Core
 
             if (!(File.Exists(servicesDllFile) && File.Exists(repositoryDllFile)))
             {
-                var msg = "Repository.dllºÍservice.dll ¶ªÊ§£¬ÒòÎªÏîÄ¿½âñîÁË£¬ËùÒÔĞèÒªÏÈF6±àÒë£¬ÔÙF5ÔËĞĞ£¬Çë¼ì²é bin ÎÄ¼ş¼Ğ£¬²¢¿½±´¡£";
+                var msg = "Repository.dllå’Œservice.dll ä¸¢å¤±ï¼Œå› ä¸ºé¡¹ç›®è§£è€¦äº†ï¼Œæ‰€ä»¥éœ€è¦å…ˆF6ç¼–è¯‘ï¼Œå†F5è¿è¡Œï¼Œè¯·æ£€æŸ¥ bin æ–‡ä»¶å¤¹ï¼Œå¹¶æ‹·è´ã€‚";
                 log.Error(msg);
                 throw new Exception(msg);
             }
 
 
 
-            // AOP ¿ª¹Ø£¬Èç¹ûÏëÒª´ò¿ªÖ¸¶¨µÄ¹¦ÄÜ£¬Ö»ĞèÒªÔÚ appsettigns.json ¶ÔÓ¦¶ÔÓ¦ true ¾ÍĞĞ¡£
+            // AOP å¼€å…³ï¼Œå¦‚æœæƒ³è¦æ‰“å¼€æŒ‡å®šçš„åŠŸèƒ½ï¼Œåªéœ€è¦åœ¨ appsettigns.json å¯¹åº”å¯¹åº” true å°±è¡Œã€‚
             var cacheType = new List<Type>();
             if (Appsettings.app(new string[] { "AppSettings", "RedisCachingAOP", "Enabled" }).ObjToBool())
             {
@@ -136,15 +158,15 @@ namespace DNet.Core
                 cacheType.Add(typeof(BlogLogAOP));
             }
 
-            // »ñÈ¡ Service.dll ³ÌĞò¼¯·şÎñ£¬²¢×¢²á
+            // è·å– Service.dll ç¨‹åºé›†æœåŠ¡ï¼Œå¹¶æ³¨å†Œ
             var assemblysServices = Assembly.LoadFrom(servicesDllFile);
             builder.RegisterAssemblyTypes(assemblysServices)
                       .AsImplementedInterfaces()
                       .InstancePerDependency()
-                      .EnableInterfaceInterceptors()//ÒıÓÃAutofac.Extras.DynamicProxy;
-                      .InterceptedBy(cacheType.ToArray());//ÔÊĞí½«À¹½ØÆ÷·şÎñµÄÁĞ±í·ÖÅä¸ø×¢²á¡£
+                      .EnableInterfaceInterceptors()//å¼•ç”¨Autofac.Extras.DynamicProxy;
+                      .InterceptedBy(cacheType.ToArray());//å…è®¸å°†æ‹¦æˆªå™¨æœåŠ¡çš„åˆ—è¡¨åˆ†é…ç»™æ³¨å†Œã€‚
 
-            // »ñÈ¡ Repository.dll ³ÌĞò¼¯·şÎñ£¬²¢×¢²á
+            // è·å– Repository.dll ç¨‹åºé›†æœåŠ¡ï¼Œå¹¶æ³¨å†Œ
             var assemblysRepository = Assembly.LoadFrom(repositoryDllFile);
             builder.RegisterAssemblyTypes(assemblysRepository)
                    .AsImplementedInterfaces()
@@ -152,26 +174,26 @@ namespace DNet.Core
 
             #endregion
 
-            #region Ã»ÓĞ½Ó¿Ú²ãµÄ·şÎñ²ã×¢Èë
+            #region æ²¡æœ‰æ¥å£å±‚çš„æœåŠ¡å±‚æ³¨å…¥
 
-            //ÒòÎªÃ»ÓĞ½Ó¿Ú²ã£¬ËùÒÔ²»ÄÜÊµÏÖ½âñî£¬Ö»ÄÜÓÃ Load ·½·¨¡£
-            //×¢ÒâÈç¹ûÊ¹ÓÃÃ»ÓĞ½Ó¿ÚµÄ·şÎñ£¬²¢Ïë¶ÔÆäÊ¹ÓÃ AOP À¹½Ø£¬¾Í±ØĞëÉèÖÃÎªĞé·½·¨
-            //var assemblysServicesNoInterfaces = Assembly.Load("Blog.Core.Services");
+            //å› ä¸ºæ²¡æœ‰æ¥å£å±‚ï¼Œæ‰€ä»¥ä¸èƒ½å®ç°è§£è€¦ï¼Œåªèƒ½ç”¨ Load æ–¹æ³•ã€‚
+            //æ³¨æ„å¦‚æœä½¿ç”¨æ²¡æœ‰æ¥å£çš„æœåŠ¡ï¼Œå¹¶æƒ³å¯¹å…¶ä½¿ç”¨ AOP æ‹¦æˆªï¼Œå°±å¿…é¡»è®¾ç½®ä¸ºè™šæ–¹æ³•
+            //var assemblysServicesNoInterfaces = Assembly.Load("DNet.Core.Services");
             //builder.RegisterAssemblyTypes(assemblysServicesNoInterfaces);
 
             #endregion
 
-            #region Ã»ÓĞ½Ó¿ÚµÄµ¥¶ÀÀà£¬ÆôÓÃclass´úÀíÀ¹½Ø
+            #region æ²¡æœ‰æ¥å£çš„å•ç‹¬ç±»ï¼Œå¯ç”¨classä»£ç†æ‹¦æˆª
 
-            //Ö»ÄÜ×¢Èë¸ÃÀàÖĞµÄĞé·½·¨£¬ÇÒ±ØĞëÊÇpublic
+            //åªèƒ½æ³¨å…¥è¯¥ç±»ä¸­çš„è™šæ–¹æ³•ï¼Œä¸”å¿…é¡»æ˜¯public
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Love)))
                 .EnableClassInterceptors()
                 .InterceptedBy(cacheType.ToArray());
             #endregion
 
-            #region µ¥¶À×¢²áÒ»¸öº¬ÓĞ½Ó¿ÚµÄÀà£¬ÆôÓÃinterface´úÀíÀ¹½Ø
+            #region å•ç‹¬æ³¨å†Œä¸€ä¸ªå«æœ‰æ¥å£çš„ç±»ï¼Œå¯ç”¨interfaceä»£ç†æ‹¦æˆª
 
-            //²»ÓÃĞé·½·¨
+            //ä¸ç”¨è™šæ–¹æ³•
             //builder.RegisterType<AopService>().As<IAopService>()
             //   .AsImplementedInterfaces()
             //   .EnableInterfaceInterceptors()
@@ -179,38 +201,49 @@ namespace DNet.Core
             #endregion
 
 
-            // ÕâÀïºÍ×¢ÈëÃ»¹ØÏµ£¬Ö»ÊÇ»ñÈ¡×¢²áÁĞ±í£¬ÇëºöÂÔ
+            // è¿™é‡Œå’Œæ³¨å…¥æ²¡å…³ç³»ï¼Œåªæ˜¯è·å–æ³¨å†Œåˆ—è¡¨ï¼Œè¯·å¿½ç•¥
             tsDIAutofac.AddRange(assemblysServices.GetTypes().ToList());
             tsDIAutofac.AddRange(assemblysRepository.GetTypes().ToList());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IBlogArticleServices _blogArticleServices, ILoggerFactory loggerFactory)
         {
-            //IpÏŞÁ÷,¾¡Á¿·Å¹ÜµÀÍâ²ã
+            // Ipé™æµ,å°½é‡æ”¾ç®¡é“å¤–å±‚
             app.UseIpRateLimiting();
-            //¼ÇÂ¼ËùÓĞµÄ·ÃÎÊ¼ÇÂ¼
+            // è®°å½•æ‰€æœ‰çš„è®¿é—®è®°å½•
             loggerFactory.AddLog4Net();
-            //¼ÇÂ¼ÇëÇóÓë·µ»ØÊı¾İ
-            app.UseRequestResponseLogMidd();
-            // signalr
+            // è®°å½•è¯·æ±‚ä¸è¿”å›æ•°æ® 
+            app.UseReuestResponseLogMidd();
+            // signalr 
             app.UseSignalRSendMidd();
-            // ¼ÇÂ¼ipÇëÇó
+            // è®°å½•ipè¯·æ±‚
             app.UseIPLogMidd();
-            //²é¿´×¢ÈëµÄËùÓĞ·şÎñ
+            // æŸ¥çœ‹æ³¨å…¥çš„æ‰€æœ‰æœåŠ¡
             app.UseAllServicesMidd(_services, tsDIAutofac);
+
             #region Environment
             if (env.IsDevelopment())
             {
-                // ÔÚ¿ª·¢»·¾³ÖĞ£¬Ê¹ÓÃÒì³£Ò³Ãæ£¬ÕâÑù¿ÉÒÔ±©Â¶´íÎó¶ÑÕ»ĞÅÏ¢£¬ËùÒÔ²»Òª·ÅÔÚÉú²ú»·¾³¡£
+                // åœ¨å¼€å‘ç¯å¢ƒä¸­ï¼Œä½¿ç”¨å¼‚å¸¸é¡µé¢ï¼Œè¿™æ ·å¯ä»¥æš´éœ²é”™è¯¯å †æ ˆä¿¡æ¯ï¼Œæ‰€ä»¥ä¸è¦æ”¾åœ¨ç”Ÿäº§ç¯å¢ƒã€‚
                 app.UseDeveloperExceptionPage();
+
+                //app.Use(async (context, next) =>
+                //{
+                //    //è¿™é‡Œä¼šå¤šæ¬¡è°ƒç”¨ï¼Œè¿™é‡Œæµ‹è¯•ä¸€ä¸‹å°±è¡Œï¼Œä¸è¦æ‰“å¼€æ³¨é‡Š
+                //    //var blogs =await _blogArticleServices.GetBlogs();
+                //    var processName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
+                //    Console.WriteLine(processName);
+                //    await next();
+                //});
             }
             else
             {
                 app.UseExceptionHandler("/Error");
-                // ÔÚ·Ç¿ª·¢»·¾³ÖĞ£¬Ê¹ÓÃHTTPÑÏ¸ñ°²È«´«Êä(or HSTS) ¶ÔÓÚ±£»¤web°²È«ÊÇ·Ç³£ÖØÒªµÄ¡£
-                // Ç¿ÖÆÊµÊ© HTTPS ÔÚ ASP.NET Core£¬ÅäºÏ app.UseHttpsRedirection
+                // åœ¨éå¼€å‘ç¯å¢ƒä¸­ï¼Œä½¿ç”¨HTTPä¸¥æ ¼å®‰å…¨ä¼ è¾“(or HSTS) å¯¹äºä¿æŠ¤webå®‰å…¨æ˜¯éå¸¸é‡è¦çš„ã€‚
+                // å¼ºåˆ¶å®æ–½ HTTPS åœ¨ ASP.NET Coreï¼Œé…åˆ app.UseHttpsRedirection
                 //app.UseHsts();
+
             }
             #endregion
 
@@ -218,61 +251,68 @@ namespace DNet.Core
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                //¸ù¾İ°æ±¾Ãû³Æµ¹Ğò ±éÀúÕ¹Ê¾
+                //æ ¹æ®ç‰ˆæœ¬åç§°å€’åº éå†å±•ç¤º
                 var ApiName = Appsettings.app(new string[] { "Startup", "ApiName" });
-                typeof(ApiVersion).GetEnumNames().OrderByDescending(e => e).ToList().ForEach(version =>
+                typeof(ApiVersions).GetEnumNames().OrderByDescending(e => e).ToList().ForEach(version =>
                 {
                     c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{ApiName} {version}");
                 });
 
-                // ½«swaggerÊ×Ò³£¬ÉèÖÃ³ÉÎÒÃÇ×Ô¶¨ÒåµÄÒ³Ãæ£¬¼ÇµÃÕâ¸ö×Ö·û´®µÄĞ´·¨£º½â¾ö·½°¸Ãû.index.html
+                // å°†swaggeré¦–é¡µï¼Œè®¾ç½®æˆæˆ‘ä»¬è‡ªå®šä¹‰çš„é¡µé¢ï¼Œè®°å¾—è¿™ä¸ªå­—ç¬¦ä¸²çš„å†™æ³•ï¼šè§£å†³æ–¹æ¡ˆå.index.html
                 c.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("DNet.Core.index.html");
 
                 if (GetType().GetTypeInfo().Assembly.GetManifestResourceStream("DNet.Core.index.html") == null)
                 {
-                    var msg = "index.htmlµÄÊôĞÔ£¬±ØĞëÉèÖÃÎªÇ¶ÈëµÄ×ÊÔ´";
+                    var msg = "index.htmlçš„å±æ€§ï¼Œå¿…é¡»è®¾ç½®ä¸ºåµŒå…¥çš„èµ„æº";
                     log.Error(msg);
                     throw new Exception(msg);
                 }
-
-                // Â·¾¶ÅäÖÃ£¬ÉèÖÃÎª¿Õ£¬±íÊ¾Ö±½ÓÔÚ¸ùÓòÃû£¨localhost:8001£©·ÃÎÊ¸ÃÎÄ¼ş,×¢Òâlocalhost:8001/swaggerÊÇ·ÃÎÊ²»µ½µÄ£¬È¥launchSettings.json°ÑlaunchUrlÈ¥µô£¬Èç¹ûÄãÏë»»Ò»¸öÂ·¾¶£¬Ö±½ÓĞ´Ãû×Ö¼´¿É£¬±ÈÈçÖ±½ÓĞ´c.RoutePrefix = "doc";
+                // è·¯å¾„é…ç½®ï¼Œè®¾ç½®ä¸ºç©ºï¼Œè¡¨ç¤ºç›´æ¥åœ¨æ ¹åŸŸåï¼ˆlocalhost:8001ï¼‰è®¿é—®è¯¥æ–‡ä»¶,æ³¨æ„localhost:8001/swaggeræ˜¯è®¿é—®ä¸åˆ°çš„ï¼Œå»launchSettings.jsonæŠŠlaunchUrlå»æ‰ï¼Œå¦‚æœä½ æƒ³æ¢ä¸€ä¸ªè·¯å¾„ï¼Œç›´æ¥å†™åå­—å³å¯ï¼Œæ¯”å¦‚ç›´æ¥å†™c.RoutePrefix = "doc";
                 c.RoutePrefix = "";
+                //æ§åˆ¶æ§åˆ¶å™¨é»˜è®¤æ˜¯å¦æŠ˜å 
+                c.ConfigObject.DocExpansion = Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None;
             });
             #endregion
 
-            // ¡ı¡ı¡ı¡ı¡ı¡ı ×¢ÒâÏÂ±ßÕâĞ©ÖĞ¼ä¼şµÄË³Ğò£¬ºÜÖØÒª ¡ı¡ı¡ı¡ı¡ı¡ı
+
+
+            // â†“â†“â†“â†“â†“â†“ æ³¨æ„ä¸‹è¾¹è¿™äº›ä¸­é—´ä»¶çš„é¡ºåºï¼Œå¾ˆé‡è¦ â†“â†“â†“â†“â†“â†“
+
             app.UseCors("LimitRequests");
-            // Ìø×ªhttps
+
+            // è·³è½¬https
             //app.UseHttpsRedirection();
-            //Ê¹ÓÃ¾²Ì¬ÎÄ¼ş
+            // ä½¿ç”¨é™æ€æ–‡ä»¶
             app.UseStaticFiles();
-            //Ê¹ÓÃcookie
+            // ä½¿ç”¨cookie
             app.UseCookiePolicy();
-            //·µ»Ø´íÎóÂë ,±ÈÈç404
+            // è¿”å›é”™è¯¯ç  æ¯”å¦‚æ˜¯404
             app.UseStatusCodePages();
-            //Routing
+            // Routing
             app.UseRouting();
-            //ÕâÖÖ×Ô¶¨ÒåÊÚÈ¨ÖĞ¼ä¼ş,¿ÉÒÔ³¢ÊÔ,µ«²»ÍÆ¼ö
-            //app.UseJwtTokenAuthMidd();
-            // ÏÈ¿ªÆôÈÏÖ¤
-            app.UseAuthorization();
-            // È»ºóÊÇÊÚÈ¨ÖĞ¼ä¼ş
+            // è¿™ç§è‡ªå®šä¹‰æˆæƒä¸­é—´ä»¶ï¼Œå¯ä»¥å°è¯•ï¼Œä½†ä¸æ¨è
+            // app.UseJwtTokenAuth();
+            // å…ˆå¼€å¯è®¤è¯
+            app.UseAuthentication();
+            // ç„¶åæ˜¯æˆæƒä¸­é—´ä»¶
             app.UseAuthorization();
 
-            //¿ªÆôÒì³£ÖĞ¼ä¼ş,Òª·Åµ½×îºó
+            // å¼€å¯å¼‚å¸¸ä¸­é—´ä»¶ï¼Œè¦æ”¾åˆ°æœ€å
             app.UseExceptionHandlerMidd();
-
-            //¿ªÆôÉó¼Æ
+            // å¼€å¯æ€§èƒ½åˆ†æ
             app.UseMiniProfiler();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                //endpoints.MapControllers();
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/api2/chatHub");
             });
+
+
         }
+
     }
 }

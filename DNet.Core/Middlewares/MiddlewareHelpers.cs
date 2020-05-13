@@ -1,9 +1,5 @@
 ﻿using DNet.Core.AuthHelper;
 using Microsoft.AspNetCore.Builder;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Middlewares
 {
@@ -14,7 +10,7 @@ namespace DNet.Core.Middlewares
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseJwtTokenAuthMidd(this IApplicationBuilder app)
+        public static IApplicationBuilder UseJwtTokenAuth(this IApplicationBuilder app)
         {
             return app.UseMiddleware<JwtTokenAuth>();
         }
@@ -24,7 +20,7 @@ namespace DNet.Core.Middlewares
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseRequestResponseLogMidd(this IApplicationBuilder app)
+        public static IApplicationBuilder UseReuestResponseLogMidd(this IApplicationBuilder app)
         {
             return app.UseMiddleware<RequRespLogMidd>();
         }

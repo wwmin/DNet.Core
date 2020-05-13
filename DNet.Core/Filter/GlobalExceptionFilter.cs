@@ -1,4 +1,5 @@
-﻿using DNet.Core.Common;
+﻿using DNet.Core.Common.LogHelper;
+using DNet.Core.Hubs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,22 +9,22 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StackExchange.Profiling;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DNet.Core.Filter
 {
-    public class GlobalExceptionFilter : IExceptionFilter
+    /// <summary>
+    /// 全局异常错误日志
+    /// </summary>
+    public class GlobalExceptionsFilter : IExceptionFilter
     {
         private readonly IWebHostEnvironment _env;
         private readonly IHubContext<ChatHub> _hubContext;
-        private readonly ILogger<GlobalExceptionFilter> _loggerHelper;
+        private readonly ILogger<GlobalExceptionsFilter> _loggerHelper;
         private static readonly log4net.ILog log =
-        log4net.LogManager.GetLogger(typeof(GlobalExceptionFilter));
+        log4net.LogManager.GetLogger(typeof(GlobalExceptionsFilter));
 
 
-        public GlobalExceptionFilter(IWebHostEnvironment env, ILogger<GlobalExceptionFilter> loggerHelper, IHubContext<ChatHub> hubContext)
+        public GlobalExceptionsFilter(IWebHostEnvironment env, ILogger<GlobalExceptionsFilter> loggerHelper, IHubContext<ChatHub> hubContext)
         {
             _env = env;
             _loggerHelper = loggerHelper;
@@ -36,7 +37,7 @@ namespace DNet.Core.Filter
 
             json.Message = context.Exception.Message;//错误信息
             var errorAudit = "Unable to resolve service for";
-            if (!string.IsNullOrEmpty(json.Message) && json.Message.Contains(errorAudit))
+            if (!string.IsNullOrEmpty(json.Message)&& json.Message.Contains(errorAudit))
             {
                 json.Message = json.Message.Replace(errorAudit, $"（若新添加服务，需要重新编译项目）{errorAudit}");
             }
@@ -88,4 +89,5 @@ namespace DNet.Core.Filter
         /// </summary>
         public string DevelopmentMessage { get; set; }
     }
+
 }

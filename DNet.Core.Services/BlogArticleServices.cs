@@ -1,24 +1,18 @@
-	//----------BlogArticle开始----------
-    
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DNet.Core.Common;
 using DNet.Core.IRepository;
-using DNet.Core.IRepository.UnitOfWork;
 using DNet.Core.IServices;
 using DNet.Core.Model.Models;
 using DNet.Core.Model.ViewModels;
 using DNet.Core.Services.BASE;
+
 namespace DNet.Core.Services
 {
-    /// <summary>
-    /// BlogArticleServices
-    /// </summary>	
     public class BlogArticleServices : BaseServices<BlogArticle>, IBlogArticleServices
     {
         IBlogArticleRepository _dal;
@@ -119,6 +113,3 @@ namespace DNet.Core.Services
         }
     }
 }
-
-	//----------BlogArticle结束----------
-	

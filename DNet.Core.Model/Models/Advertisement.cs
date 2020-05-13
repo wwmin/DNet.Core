@@ -1,12 +1,8 @@
-using SqlSugar;
+﻿using SqlSugar;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DNet.Core.Model.Models
 {
-    ///<summary>
-    ///Advertisement
-    ///</summary>
     public class Advertisement : RootEntity
     {
 
@@ -39,4 +35,4 @@ namespace DNet.Core.Model.Models
         /// </summary>
         public DateTime Createdate { get; set; } = DateTime.Now;
     }
-}	 
+}
