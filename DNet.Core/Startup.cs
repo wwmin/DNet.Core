@@ -260,10 +260,10 @@ namespace DNet.Core
             app.UseAuthorization();
 
             //开启异常中间件,要放到最后
-            //app.UseExceptionHandlerMidd();
+            app.UseExceptionHandlerMidd();
 
             //开启审计
-            app.UseMiniProfiler();
+            //app.UseMiniProfiler();
 
             app.UseEndpoints(endpoints =>
             {

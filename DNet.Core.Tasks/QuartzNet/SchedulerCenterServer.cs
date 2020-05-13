@@ -254,7 +254,7 @@ namespace DNet.Core.Tasks.QuartzNet
             {
                 ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(sysSchedule.Id.ToString(), sysSchedule.JobGroup)
-                .StartAt(sysSchedule.BeginTime)
+                .StartAt(sysSchedule.BeginTime.Value)
                 .EndAt(sysSchedule.EndTime)
                 .WithSimpleSchedule(x =>
                 x.WithIntervalInSeconds(sysSchedule.IntervalSecond)
@@ -265,7 +265,7 @@ namespace DNet.Core.Tasks.QuartzNet
             {
                 ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity(sysSchedule.Id.ToString(), sysSchedule.JobGroup)
-                .StartAt(sysSchedule.BeginTime)
+                .StartAt(sysSchedule.BeginTime.Value)
                 .EndAt(sysSchedule.EndTime)
                 .WithSimpleSchedule(x =>
                 x.WithIntervalInSeconds(sysSchedule.IntervalSecond)
@@ -286,7 +286,7 @@ namespace DNet.Core.Tasks.QuartzNet
             // 作业触发器
             return TriggerBuilder.Create()
                    .WithIdentity(sysSchedule.Id.ToString(), sysSchedule.JobGroup)
-                   .StartAt(sysSchedule.BeginTime)//开始时间
+                   .StartAt(sysSchedule.BeginTime.Value)//开始时间
                    .EndAt(sysSchedule.EndTime)//结束数据
                    .WithCronSchedule(sysSchedule.Cron)//指定cron表达式
                    .ForJob(sysSchedule.Id.ToString(), sysSchedule.JobGroup)//作业名称

@@ -1,116 +1,137 @@
+using SqlSugar;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///Permission
-	 ///</summary>
-	 [Table("Permission")]	
-	 public class Permission
-	 {
-	 
-		/// <summary>
-        /// Id
+    /// <summary>
+    /// 路由菜单表
+    /// </summary>
+    public class Permission : RootEntity
+    {
+        public Permission()
+        {
+            //this.ModulePermission = new List<ModulePermission>();
+            //this.RoleModulePermission = new List<RoleModulePermission>();
+        }
+
+        /// <summary>
+        /// 菜单执行Action名
         /// </summary>
-		[Key]
-		[Required]
-		public int Id { get; set; }
-	
-		/// <summary>
-        /// Code
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        public string Code { get; set; }
+        /// <summary>
+        /// 菜单显示名（如用户页、编辑(按钮)、删除(按钮)）
         /// </summary>
-		public string Code { get; set; }
-	
-		/// <summary>
-        /// Name
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        public string Name { get; set; }
+        /// <summary>
+        /// 是否是按钮
         /// </summary>
-		public string Name { get; set; }
-	
-		/// <summary>
-        /// IsButton
+        public bool IsButton { get; set; } = false;
+        /// <summary>
+        /// 是否是隐藏菜单
         /// </summary>
-		[Required]
-		public bool IsButton { get; set; }
-	
-		/// <summary>
-        /// IsHide
+        [SugarColumn(IsNullable = true)]
+        public bool? IsHide { get; set; } = false;
+        /// <summary>
+        /// 是否keepAlive
         /// </summary>
-		public bool? IsHide { get; set; }
-	
-		/// <summary>
-        /// Func
+        [SugarColumn(IsNullable = true)]
+        public bool? IskeepAlive { get; set; } = false;
+
+
+        /// <summary>
+        /// 按钮事件
         /// </summary>
-		public string Func { get; set; }
-	
-		/// <summary>
-        /// Pid
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        public string Func { get; set; }
+
+
+
+        /// <summary>
+        /// 上一级菜单（0表示上一级无菜单）
         /// </summary>
-		[Required]
-		public int Pid { get; set; }
-	
-		/// <summary>
-        /// Mid
+        public int Pid { get; set; }
+
+
+        /// <summary>
+        /// 接口api
         /// </summary>
-		[Required]
-		public int Mid { get; set; }
-	
-		/// <summary>
-        /// OrderSort
+        public int Mid { get; set; }
+
+        /// <summary>
+        /// 排序
         /// </summary>
-		[Required]
-		public int OrderSort { get; set; }
-	
-		/// <summary>
-        /// Icon
+        public int OrderSort { get; set; }
+        /// <summary>
+        /// 菜单图标
         /// </summary>
-		public string Icon { get; set; }
-	
-		/// <summary>
-        /// Description
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        public string Icon { get; set; }
+        /// <summary>
+        /// 菜单描述    
         /// </summary>
-		public string Description { get; set; }
-	
-		/// <summary>
-        /// Enabled
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        public string Description { get; set; }
+        /// <summary>
+        /// 激活状态
         /// </summary>
-		[Required]
-		public bool Enabled { get; set; }
-	
-		/// <summary>
-        /// CreateId
+        public bool Enabled { get; set; }
+        /// <summary>
+        /// 创建ID
         /// </summary>
-		public int? CreateId { get; set; }
-	
-		/// <summary>
-        /// CreateBy
+        [SugarColumn(IsNullable = true)]
+        public int? CreateId { get; set; }
+        /// <summary>
+        /// 创建者
         /// </summary>
-		public string CreateBy { get; set; }
-	
-		/// <summary>
-        /// CreateTime
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        public string CreateBy { get; set; }
+        /// <summary>
+        /// 创建时间
         /// </summary>
-		public DateTime? CreateTime { get; set; }
-	
-		/// <summary>
-        /// ModifyId
+        [SugarColumn(IsNullable = true)]
+        public DateTime? CreateTime { get; set; } = DateTime.Now;
+        /// <summary>
+        /// 修改ID
         /// </summary>
-		public int? ModifyId { get; set; }
-	
-		/// <summary>
-        /// ModifyBy
+        [SugarColumn(IsNullable = true)]
+        public int? ModifyId { get; set; }
+        /// <summary>
+        /// 修改者
         /// </summary>
-		public string ModifyBy { get; set; }
-	
-		/// <summary>
-        /// ModifyTime
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        public string ModifyBy { get; set; }
+        /// <summary>
+        /// 修改时间
         /// </summary>
-		public DateTime? ModifyTime { get; set; }
-	
-		/// <summary>
-        /// IsDeleted
+        [SugarColumn(IsNullable = true)]
+        public DateTime? ModifyTime { get; set; } = DateTime.Now;
+
+        /// <summary>
+        ///获取或设置是否禁用，逻辑上的删除，非物理删除
         /// </summary>
-		public bool? IsDeleted { get; set; }
-	 
-	 }
+        [SugarColumn(IsNullable = true)]
+        public bool? IsDeleted { get; set; }
+
+
+
+
+        [SugarColumn(IsIgnore = true)]
+        public List<int> PidArr { get; set; }
+        [SugarColumn(IsIgnore = true)]
+        public List<string> PnameArr { get; set; } = new List<string>();
+        [SugarColumn(IsIgnore = true)]
+        public List<string> PCodeArr { get; set; } = new List<string>();
+        [SugarColumn(IsIgnore = true)]
+        public string MName { get; set; }
+
+        [SugarColumn(IsIgnore = true)]
+        public bool hasChildren { get; set; } = true;
+
+        //public virtual ICollection<ModulePermission> ModulePermission { get; set; }
+        //public virtual ICollection<RoleModulePermission> RoleModulePermission { get; set; }
+    }
 }	 

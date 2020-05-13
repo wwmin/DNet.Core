@@ -1,99 +1,50 @@
+using SqlSugar;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///TopicDetail
-	 ///</summary>
-	 [Table("TopicDetail")]	
-	 public class TopicDetail
-	 {
-	 
-		/// <summary>
-        /// Id
-        /// </summary>
-		[Key]
-		[Required]
-		public int Id { get; set; }
-	
-		/// <summary>
-        /// TopicId
-        /// </summary>
-		[Required]
-		public int TopicId { get; set; }
-	
-		/// <summary>
-        /// tdLogo
-        /// </summary>
-		public string tdLogo { get; set; }
-	
-		/// <summary>
-        /// tdName
-        /// </summary>
-		public string tdName { get; set; }
-	
-		/// <summary>
-        /// tdContent
-        /// </summary>
-		public string tdContent { get; set; }
-	
-		/// <summary>
-        /// tdDetail
-        /// </summary>
-		public string tdDetail { get; set; }
-	
-		/// <summary>
-        /// tdSectendDetail
-        /// </summary>
-		public string tdSectendDetail { get; set; }
-	
-		/// <summary>
-        /// tdIsDelete
-        /// </summary>
-		[Required]
-		public bool tdIsDelete { get; set; }
-	
-		/// <summary>
-        /// tdRead
-        /// </summary>
-		[Required]
-		public int tdRead { get; set; }
-	
-		/// <summary>
-        /// tdCommend
-        /// </summary>
-		[Required]
-		public int tdCommend { get; set; }
-	
-		/// <summary>
-        /// tdGood
-        /// </summary>
-		[Required]
-		public int tdGood { get; set; }
-	
-		/// <summary>
-        /// tdCreatetime
-        /// </summary>
-		[Required]
-		public DateTime tdCreatetime { get; set; }
-	
-		/// <summary>
-        /// tdUpdatetime
-        /// </summary>
-		[Required]
-		public DateTime tdUpdatetime { get; set; }
-	
-		/// <summary>
-        /// tdTop
-        /// </summary>
-		[Required]
-		public int tdTop { get; set; }
-	
-		/// <summary>
-        /// tdAuthor
-        /// </summary>
-		public string tdAuthor { get; set; }
-	 
-	 }
+    /// <summary>
+    /// Tibug ²©ÎÄ
+    /// </summary>
+    public class TopicDetail : RootEntity
+    {
+        public TopicDetail()
+        {
+            this.tdUpdatetime = DateTime.Now;
+        }
+
+        public int TopicId { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tdLogo { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tdName { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string tdContent { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 400, IsNullable = true)]
+        public string tdDetail { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tdSectendDetail { get; set; }
+
+        public bool tdIsDelete { get; set; } = false;
+        public int tdRead { get; set; }
+        public int tdCommend { get; set; }
+        public int tdGood { get; set; }
+        public DateTime tdCreatetime { get; set; }
+        public DateTime tdUpdatetime { get; set; }
+        public int tdTop { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tdAuthor { get; set; }
+
+
+        [SugarColumn(IsIgnore = true)]
+        public virtual Topic Topic { get; set; }
+
+    }
 }	 

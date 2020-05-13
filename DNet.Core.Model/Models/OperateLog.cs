@@ -1,67 +1,61 @@
+using SqlSugar;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///OperateLog
-	 ///</summary>
-	 [Table("OperateLog")]	
-	 public class OperateLog
-	 {
-	 
-		/// <summary>
-        /// Id
+    /// <summary>
+    /// 日志记录
+    /// </summary>
+    public class OperateLog : RootEntity
+    {
+
+        /// <summary>
+        ///获取或设置是否禁用，逻辑上的删除，非物理删除
         /// </summary>
-		[Key]
-		[Required]
-		public int Id { get; set; }
-	
-		/// <summary>
-        /// IsDeleted
+        [SugarColumn(IsNullable = true)]
+        public bool? IsDeleted { get; set; }
+        /// <summary>
+        /// 区域名
         /// </summary>
-		public bool? IsDeleted { get; set; }
-	
-		/// <summary>
-        /// Area
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string Area { get; set; }
+        /// <summary>
+        /// 区域控制器名
         /// </summary>
-		public string Area { get; set; }
-	
-		/// <summary>
-        /// Controller
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string Controller { get; set; }
+        /// <summary>
+        /// Action名称
         /// </summary>
-		public string Controller { get; set; }
-	
-		/// <summary>
-        /// Action
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string Action { get; set; }
+        /// <summary>
+        /// IP地址
         /// </summary>
-		public string Action { get; set; }
-	
-		/// <summary>
-        /// IPAddress
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string IPAddress { get; set; }
+        /// <summary>
+        /// 描述
         /// </summary>
-		public string IPAddress { get; set; }
-	
-		/// <summary>
-        /// Description
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string Description { get; set; }
+        /// <summary>
+        /// 登录时间
         /// </summary>
-		public string Description { get; set; }
-	
-		/// <summary>
-        /// LogTime
+        [SugarColumn(IsNullable = true)]
+        public DateTime? LogTime { get; set; }
+        /// <summary>
+        /// 登录名称
         /// </summary>
-		public DateTime? LogTime { get; set; }
-	
-		/// <summary>
-        /// LoginName
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string LoginName { get; set; }
+        /// <summary>
+        /// 用户ID
         /// </summary>
-		public string LoginName { get; set; }
-	
-		/// <summary>
-        /// UserId
-        /// </summary>
-		[Required]
-		public int UserId { get; set; }
-	 
-	 }
+        public int UserId { get; set; }
+
+        [SugarColumn(IsIgnore = true)]
+        public virtual sysUserInfo User { get; set; }
+    }
 }	 

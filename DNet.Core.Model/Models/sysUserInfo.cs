@@ -1,101 +1,107 @@
+using SqlSugar;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///sysUserInfo
-	 ///</summary>
-	 [Table("sysUserInfo")]	
-	 public class sysUserInfo
-	 {
-	 
-		/// <summary>
-        /// uID
+    /// <summary>
+    /// 用户信息表
+    /// </summary>
+    public class sysUserInfo
+    {
+        public sysUserInfo() { }
+
+        public sysUserInfo(string loginName, string loginPWD)
+        {
+            uLoginName = loginName;
+            uLoginPWD = loginPWD;
+            uRealName = uLoginName;
+            uStatus = 0;
+            uCreateTime = DateTime.Now;
+            uUpdateTime = DateTime.Now;
+            uLastErrTime = DateTime.Now;
+            uErrorCount = 0;
+            name = "";
+
+        }
+        /// <summary>
+        /// 用户ID
         /// </summary>
-		[Key]
-		[Required]
-		public int uID { get; set; }
-	
-		/// <summary>
-        /// uLoginName
+        [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
+        public int uID { get; set; }
+        /// <summary>
+        /// 登录账号
         /// </summary>
-		public string uLoginName { get; set; }
-	
-		/// <summary>
-        /// uLoginPWD
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string uLoginName { get; set; }
+        /// <summary>
+        /// 登录密码
         /// </summary>
-		public string uLoginPWD { get; set; }
-	
-		/// <summary>
-        /// uRealName
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string uLoginPWD { get; set; }
+        /// <summary>
+        /// 真实姓名
         /// </summary>
-		public string uRealName { get; set; }
-	
-		/// <summary>
-        /// uStatus
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string uRealName { get; set; }
+        /// <summary>
+        /// 状态
         /// </summary>
-		[Required]
-		public int uStatus { get; set; }
-	
-		/// <summary>
-        /// uRemark
+        public int uStatus { get; set; }
+        /// <summary>
+        /// 备注
         /// </summary>
-		public string uRemark { get; set; }
-	
-		/// <summary>
-        /// uCreateTime
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string uRemark { get; set; }
+        /// <summary>
+        /// 创建时间
         /// </summary>
-		[Required]
-		public DateTime uCreateTime { get; set; }
-	
-		/// <summary>
-        /// uUpdateTime
+        public System.DateTime uCreateTime { get; set; } = DateTime.Now;
+        /// <summary>
+        /// 更新时间
         /// </summary>
-		[Required]
-		public DateTime uUpdateTime { get; set; }
-	
-		/// <summary>
-        /// uLastErrTime
+        public System.DateTime uUpdateTime { get; set; } = DateTime.Now;
+
+        /// <summary>
+        ///最后登录时间 
         /// </summary>
-		[Required]
-		public DateTime uLastErrTime { get; set; }
-	
-		/// <summary>
-        /// uErrorCount
+        public DateTime uLastErrTime { get; set; } = DateTime.Now;
+
+        /// <summary>
+        ///错误次数 
         /// </summary>
-		[Required]
-		public int uErrorCount { get; set; }
-	
-		/// <summary>
-        /// name
+        public int uErrorCount { get; set; }
+
+
+
+        /// <summary>
+        /// 登录账号
         /// </summary>
-		public string name { get; set; }
-	
-		/// <summary>
-        /// sex
-        /// </summary>
-		public int? sex { get; set; }
-	
-		/// <summary>
-        /// age
-        /// </summary>
-		public int? age { get; set; }
-	
-		/// <summary>
-        /// birth
-        /// </summary>
-		public DateTime? birth { get; set; }
-	
-		/// <summary>
-        /// addr
-        /// </summary>
-		public string addr { get; set; }
-	
-		/// <summary>
-        /// tdIsDelete
-        /// </summary>
-		public bool? tdIsDelete { get; set; }
-	 
-	 }
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string name { get; set; }
+
+        // 性别
+        [SugarColumn(IsNullable = true)]
+        public int sex { get; set; } = 0;
+        // 年龄
+        [SugarColumn(IsNullable = true)]
+        public int age { get; set; }
+        // 生日
+        [SugarColumn(IsNullable = true)]
+        public DateTime birth { get; set; } = DateTime.Now;
+        // 地址
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string addr { get; set; }
+
+        [SugarColumn(IsNullable = true)]
+        public bool tdIsDelete { get; set; }
+
+
+        [SugarColumn(IsIgnore = true)]
+        public List<int> RIDs { get; set; }
+        [SugarColumn(IsIgnore = true)]
+        public List<string> RoleNames { get; set; }
+
+    }
 }	 

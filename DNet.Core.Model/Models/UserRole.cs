@@ -1,68 +1,71 @@
+using SqlSugar;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///UserRole
-	 ///</summary>
-	 [Table("UserRole")]	
-	 public class UserRole
-	 {
-	 
-		/// <summary>
-        /// Id
+    /// <summary>
+    /// 用户跟角色关联表
+    /// </summary>
+    public class UserRole : RootEntity
+    {
+        public UserRole() { }
+
+        public UserRole(int uid, int rid)
+        {
+            UserId = uid;
+            RoleId = rid;
+            CreateTime = DateTime.Now;
+            IsDeleted = false;
+            CreateId = uid;
+            CreateTime = DateTime.Now;
+        }
+
+
+
+        /// <summary>
+        ///获取或设置是否禁用，逻辑上的删除，非物理删除
         /// </summary>
-		[Key]
-		[Required]
-		public int Id { get; set; }
-	
-		/// <summary>
-        /// IsDeleted
+        [SugarColumn(IsNullable = true)]
+        public bool? IsDeleted { get; set; }
+        /// <summary>
+        /// 用户ID
         /// </summary>
-		public bool? IsDeleted { get; set; }
-	
-		/// <summary>
-        /// UserId
+        public int UserId { get; set; }
+        /// <summary>
+        /// 角色ID
         /// </summary>
-		[Required]
-		public int UserId { get; set; }
-	
-		/// <summary>
-        /// RoleId
+        public int RoleId { get; set; }
+        /// <summary>
+        /// 创建ID
         /// </summary>
-		[Required]
-		public int RoleId { get; set; }
-	
-		/// <summary>
-        /// CreateId
+        [SugarColumn(IsNullable = true)]
+        public int? CreateId { get; set; }
+        /// <summary>
+        /// 创建者
         /// </summary>
-		public int? CreateId { get; set; }
-	
-		/// <summary>
-        /// CreateBy
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        public string CreateBy { get; set; }
+        /// <summary>
+        /// 创建时间
         /// </summary>
-		public string CreateBy { get; set; }
-	
-		/// <summary>
-        /// CreateTime
+        [SugarColumn(IsNullable = true)]
+        public DateTime? CreateTime { get; set; }
+        /// <summary>
+        /// 修改ID
         /// </summary>
-		public DateTime? CreateTime { get; set; }
-	
-		/// <summary>
-        /// ModifyId
+        [SugarColumn(IsNullable = true)]
+        public int? ModifyId { get; set; }
+        /// <summary>
+        /// 修改者
         /// </summary>
-		public int? ModifyId { get; set; }
-	
-		/// <summary>
-        /// ModifyBy
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        public string ModifyBy { get; set; }
+        /// <summary>
+        /// 修改时间
         /// </summary>
-		public string ModifyBy { get; set; }
-	
-		/// <summary>
-        /// ModifyTime
-        /// </summary>
-		public DateTime? ModifyTime { get; set; }
-	 
-	 }
+        [SugarColumn(IsNullable = true)]
+        public DateTime? ModifyTime { get; set; }
+
+    }
 }	 

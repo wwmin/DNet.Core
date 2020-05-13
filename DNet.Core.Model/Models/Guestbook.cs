@@ -1,64 +1,61 @@
+using SqlSugar;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///Guestbook
-	 ///</summary>
-	 [Table("Guestbook")]	
-	 public class Guestbook
-	 {
-	 
-		/// <summary>
-        /// id
+    ///<summary>
+    ///Guestbook
+    ///</summary>
+    public class Guestbook
+    {
+
+        /// <summary>
+        /// 留言表
         /// </summary>
-		[Key]
-		[Required]
-		public int id { get; set; }
-	
-		/// <summary>
-        /// blogId
+        [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true)]
+        public int id { get; set; }
+
+        /// <summary>博客ID
+        /// 
         /// </summary>
-		[Required]
-		public int blogId { get; set; }
-	
-		/// <summary>
-        /// createdate
+        public int? blogId { get; set; }
+        /// <summary>创建时间
+        /// 
         /// </summary>
-		[Required]
-		public DateTime createdate { get; set; }
-	
-		/// <summary>
-        /// username
+        public DateTime createdate { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string username { get; set; }
+
+        /// <summary>手机
+        /// 
         /// </summary>
-		public string username { get; set; }
-	
-		/// <summary>
-        /// phone
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string phone { get; set; }
+        /// <summary>qq
+        /// 
         /// </summary>
-		public string phone { get; set; }
-	
-		/// <summary>
-        /// QQ
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string QQ { get; set; }
+
+        /// <summary>留言内容
+        /// 
         /// </summary>
-		public string QQ { get; set; }
-	
-		/// <summary>
-        /// body
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string body { get; set; }
+        /// <summary>ip地址
+        /// 
         /// </summary>
-		public string body { get; set; }
-	
-		/// <summary>
-        /// ip
+        [SugarColumn(ColumnDataType = "nvarchar", Length = int.MaxValue, IsNullable = true)]
+        public string ip { get; set; }
+
+        /// <summary>是否显示在前台,0否1是
+        /// 
         /// </summary>
-		public string ip { get; set; }
-	
-		/// <summary>
-        /// isshow
-        /// </summary>
-		[Required]
-		public bool isshow { get; set; }
-	 
-	 }
+        public bool isshow { get; set; }
+
+        [SugarColumn(IsIgnore = true)]
+        public BlogArticle blogarticle { get; set; }
+    }
 }	 

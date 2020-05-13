@@ -1,82 +1,43 @@
+using SqlSugar;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace DNet.Core.Model.Models
 {
-	 ///<summary>
-	 ///Topic
-	 ///</summary>
-	 [Table("Topic")]	
-	 public class Topic
-	 {
-	 
-		/// <summary>
-        /// Id
-        /// </summary>
-		[Key]
-		[Required]
-		public int Id { get; set; }
-	
-		/// <summary>
-        /// tLogo
-        /// </summary>
-		public string tLogo { get; set; }
-	
-		/// <summary>
-        /// tName
-        /// </summary>
-		public string tName { get; set; }
-	
-		/// <summary>
-        /// tDetail
-        /// </summary>
-		public string tDetail { get; set; }
-	
-		/// <summary>
-        /// tAuthor
-        /// </summary>
-		public string tAuthor { get; set; }
-	
-		/// <summary>
-        /// tSectendDetail
-        /// </summary>
-		public string tSectendDetail { get; set; }
-	
-		/// <summary>
-        /// tIsDelete
-        /// </summary>
-		[Required]
-		public bool tIsDelete { get; set; }
-	
-		/// <summary>
-        /// tRead
-        /// </summary>
-		[Required]
-		public int tRead { get; set; }
-	
-		/// <summary>
-        /// tCommend
-        /// </summary>
-		[Required]
-		public int tCommend { get; set; }
-	
-		/// <summary>
-        /// tGood
-        /// </summary>
-		[Required]
-		public int tGood { get; set; }
-	
-		/// <summary>
-        /// tCreatetime
-        /// </summary>
-		[Required]
-		public DateTime tCreatetime { get; set; }
-	
-		/// <summary>
-        /// tUpdatetime
-        /// </summary>
-		[Required]
-		public DateTime tUpdatetime { get; set; }
-	 
-	 }
+    /// <summary>
+    /// Tibug Àà±ð
+    /// </summary>
+    public class Topic : RootEntity
+    {
+        public Topic()
+        {
+            this.TopicDetail = new List<TopicDetail>();
+            this.tUpdatetime = DateTime.Now;
+        }
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tLogo { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tName { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 400, IsNullable = true)]
+        public string tDetail { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tAuthor { get; set; }
+
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        public string tSectendDetail { get; set; }
+
+        public bool tIsDelete { get; set; }
+        public int tRead { get; set; }
+        public int tCommend { get; set; }
+        public int tGood { get; set; }
+        public DateTime tCreatetime { get; set; }
+        public DateTime tUpdatetime { get; set; }
+
+        [SugarColumn(IsIgnore = true)]
+        public virtual ICollection<TopicDetail> TopicDetail { get; set; }
+    }
 }	 

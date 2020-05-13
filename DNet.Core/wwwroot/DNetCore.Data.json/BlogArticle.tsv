@@ -1,0 +1,28 @@
+[
+  {
+    "bID": 1,
+    "bsubmitter": "admin",
+    "btitle": "test blog",
+    "bcategory": "技术博文",
+    "bcontent": "测试技术博文",
+    "btraffic": 127,
+    "bcommentNum": 1,
+    "bUpdateTime": "\/Date(1546272000000+0800)\/",
+    "bCreateTime": "\/Date(1546272000000+0800)\/",
+    "bRemark": null,
+    "IsDeleted": "0"
+  },
+  {
+    "bID": 2,
+    "bsubmitter": "admin",
+    "btitle": "test blog 2",
+    "bcategory": "技术博文",
+    "bcontent": "测试技术博文",
+    "btraffic": 67,
+    "bcommentNum": 0,
+    "bUpdateTime": "\/Date(1546272000000+0800)\/",
+    "bCreateTime": "\/Date(1546272000000+0800)\/",
+    "bRemark": null,
+    "IsDeleted": "0"
+  }
+]
