@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+DNet.Core/DNet.Core/wwwroot/upload/*
+DNet.Core/wwwroot/

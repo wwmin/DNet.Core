@@ -55,12 +55,12 @@ namespace DNet.Core.FrameWork.Services
         /// <param name="loginName"></param>
         /// <param name="loginPwd"></param>
         /// <returns></returns>
-        [Caching]
+        [Caching(AbsoluteExpiration = 600)]
         public async Task<string> GetUserRoleNameStr(string loginName, string loginPwd)
         {
             string roleName = "";
             var user = (await base.Query(a => a.uLoginName == loginName && a.uLoginPWD == loginPwd)).FirstOrDefault();
-            var roleList = await _roleRepository.Query(a => a.IsDeleted==false);
+            var roleList = await _roleRepository.Query(a => a.IsDeleted == false);
             if (user != null)
             {
                 var userRoles = await _userRoleServices.Query(ur => ur.UserId == user.uID);

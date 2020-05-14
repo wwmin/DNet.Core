@@ -237,6 +237,61 @@
             配置构造函数，用来创建关系映射
             </summary>
         </member>
+        <member name="T:DNet.Core.Controllers.FileController">
+            <summary>
+            文件管理
+            </summary>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.DownImg(System.String,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            下载图片
+            </summary>
+            <param name="filePath"></param>
+            <param name="environment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.UploadImages(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            多文件上传
+            </summary>
+            <param name="environment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.UseFormAttributeUpload(DNet.Core.DTO.UserFile,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            单文件上传
+            </summary>
+            <param name="file">UserFile</param>
+            <param name="environment">environment</param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.UploadingStream">
+            <summary>
+            流式文件上传
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.UploadingFormFile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            缓存式文件上传
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.UploadingFormFile">
+            <summary>
+            缓存式文件上传
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.FileController.WriteFileAsync(System.IO.Stream,System.String)">
+            <summary>
+            写文件到磁盘
+            </summary>
+            <param name="stream">流</param>
+            <param name="path">文件保存路径</param>
+            <returns></returns>
+        </member>
         <member name="T:DNet.Core.Controllers.LoginController">
             <summary>
             登录管理
@@ -252,12 +307,59 @@
             <param name="requirement"></param>
             <param name="roleModulePermissionServices"></param>
         </member>
+        <member name="M:DNet.Core.Controllers.LoginController.GetJwtStr(System.String,System.String)">
+            <summary>
+            获取JWT的方法1
+            </summary>
+            <param name="name"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.LoginController.GetJwtStrForNuxt(System.String,System.String)">
+            <summary>
+            获取JWT的方法2：给Nuxt提供
+            </summary>
+            <param name="name"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.LoginController.GetJwtToken3(System.String,System.String)">
+            <summary>
+            获取JWT的方法3：整个系统主要方法
+            </summary>
+            <param name="name"></param>
+            <param name="pass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.LoginController.RefreshToken(System.String)">
+            <summary>
+            请求刷新Token（以旧换新）
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DNet.Core.Controllers.LoginController.Getjsonp(System.String,System.Int64,System.String,System.Int32,System.Int32)">
+            <summary>
+            获取JWT的方法4：给 JSONP 测试
+            </summary>
+            <param name="callBack"></param>
+            <param name="id"></param>
+            <param name="sub"></param>
+            <param name="expiresSliding"></param>
+            <param name="expiresAbsoulute"></param>
+            <returns></returns>
+        </member>
         <member name="M:DNet.Core.Controllers.LoginController.Md5Password(System.String)">
             <summary>
             测试 MD5 加密字符串
             </summary>
             <param name="password"></param>
             <returns></returns>
+        </member>
+        <member name="T:DNet.Core.DTO.UserFile">
+            <summary>
+            封装文件上传
+            </summary>
         </member>
         <member name="T:DNet.Core.Extensions.AppConfigSetup">
             <summary>
